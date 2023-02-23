@@ -1,6 +1,5 @@
 import sys
 import json
-# import lxml.html
 import time
 import requests
 from urllib.parse import urlparse
@@ -182,19 +181,18 @@ def crawl():
             print(project)
             urls_visited += 1
             project_d = combine_all_dict(project)
-            print(project_d)
+            print(urls_visited)
             projects.append(project_d)
-            time.sleep(0.1)
+            time.sleep(0.5)
+
             if find_end_date(project_d):
-                print(find_end_date(project_d))
+                found = True 
                 break
-            if urls_visited > 35:
-                break
-            
 
         list_page_url = get_next_page(list_page_url)
 
         if get_next_page(list_page_url) == None:
+            found = True
             break
 
     with open("adb_projects.json", "w") as f:
