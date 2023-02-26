@@ -8,9 +8,10 @@ import dash
 from dash import Dash, html
 import dash_bootstrap_components as dbc
 
-from test_project.plots.demo_map import demo_map
-from test_project.plots.demo_scatter import demo_scatter
-from test_project.plots.demo_bar import demo_bar
+from final_project.plots.map import map 
+from final_project.plots.scatter import scatter
+from final_project.plots.bar import bar
+from final_project.dashboard import app
 
 # App Layout
 
@@ -24,9 +25,9 @@ app.layout = dbc.Container([
                     style = {'text-align':'center'}), 
                     justify = 'center'),
 
-    dbc.Row([dbc.Col(demo_map)]),
-    dbc.Row([dbc.Col(demo_scatter)]),
-    dbc.Row([dbc.Col(demo_bar)])],
+    dbc.Row([dbc.Col(map)]),
+    dbc.Row([dbc.Col(scatter)]),
+    dbc.Row([dbc.Col(bar)])],
 
 fluid=True, style={'backgroundColor':'white'})
 
