@@ -1,5 +1,5 @@
 '''
-Demo Scatterplot
+Scatterplot
 '''
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
@@ -10,15 +10,17 @@ import statsmodels
 from final_project.dicts import style_dict
 from final_project.dashboard import app
 
-def build_scatter(df):
+def build_scatter(df, country):
 
-    fig = px.scatter(df, 
+    scatter_data_filter = df[df["Country / Economy"] == country]
+
+    fig = px.scatter(scatter_data_filter, 
                      x = "commitment_date", 
                      y = "Amount",
                      hover_name = "Project Name",
                      hover_data = ["Country / Economy", "project_url"],
-                     title = "Amount vs. commitment_date",
-                     labels = {"Amount": "Amount"},
+                     title = f"Commitment Amount Over Time in {country}",
+                     labels = {"Amount": "Commitment Amount"},
                      trendline = "ols")
     dcc.Graph(figure=fig)
     fig.show()
@@ -47,10 +49,6 @@ scatter = [
                                  justify = 'center'),
 
         dbc.Row(dcc.Dropdown(id = "secondary_scatter",
-                             style = style_dict),
-                             justify = 'center'),
-        
-        dbc.Row(dcc.Dropdown(id="tertiary_scatter",
                              style = style_dict),
                              justify = 'center')]),
 

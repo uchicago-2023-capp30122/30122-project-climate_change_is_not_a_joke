@@ -1,14 +1,28 @@
 '''
 Map
 '''
-
-import dash
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import plotly.express as px
+import numpy as np
+from statistics import mean
 
 from final_project.dicts import style_dict
+
+
+def build_map(df):
+    
+    avg_cc_prop = mean(df.loc[:, "Climate Change Project Total Proportion"])
+
+    fig = px.choropleth(df, locations = "Country", 
+                            locationmode="country names",
+                            color="Climate Change Project Total Proportion",
+                            color_continuous_scale=px.colors.diverging.BrBG,
+                            color_continuous_midpoint=avg_cc_prop)
+                            
+    fig.show()
+
 
 # Layout
 

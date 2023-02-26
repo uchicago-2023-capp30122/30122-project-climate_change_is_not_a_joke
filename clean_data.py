@@ -4,37 +4,31 @@ import pandas as pd
 import locale
 from locale import atof
 
-#  if "Project Status" in i.keys():
-#      df["Project Status"] = i["Project Status"]
-#  if "Project Type / Modality of Assistance" in i.keys():
-#       df["Project Type / Modality of Assistance"] = i["Project Type / Modality of Assistance"]
-#   if "Description" in i.keys():
-#       df["Description"] = i["Description"]
+def adb_json_to_df():  
+    """
+    This function converts the adb json file to a pandas dataframe.
+    """ 
 
-df = pd.DataFrame(columns=["Project Name", "Project Number", "Country / Economy",
-                           "Project Status", "Project Type / Modality of Assistance",
-                           "Strategic Agendas", "Sector / Subsector", "Description",
-                           "commitment_date", "Amount", "project_url"])
-
-f = open("final_project/adb_projects.json")
+    f = open("final_project/adb_projects.json")
     
-data = json.load(f)
-for i in data:
-    if i is None:
-        continue
-    df1 = pd.DataFrame({"Project Name": i["Project Name"],
-                        "Country / Economy": i["Country / Economy"],
-                        "Strategic Agendas" : i["Strategic Agendas"],
-                        "Sector / Subsector": i["Sector / Subsector"],
-                        "commitment_date": i["commitment_date"],
-                        "Amount": i["Amount"],
-                        "project_url": i["project_url"]},
-                        index = [i["Project Number"]])
-    df = df.append(df1)
+    data = json.load(f)
+    new_data = list(filter(None, data))
+    df = pd.DataFrame.from_dict(new_data, orient="columns")   
     
-locale.setlocale(locale.LC_NUMERIC, '')
-df["Amount"] = df["Amount"].map(atof)
-df["Amount"] = df["Amount"].where(df["Amount"] >= 1000, df["Amount"] * 1000000)
+    locale.setlocale(locale.LC_NUMERIC, '')
+    df["Amount"] = df["Amount"].map(atof)
+    df["Amount"] = df["Amount"].where(df["Amount"] >= 1000, df["Amount"] * 1000000)
 
-df = df[df.loc[:, "commitment_date"] != "-"]
-df['commitment_date'] = pd.to_datetime(df["commitment_date"], format="%d %b %Y")
+    df = df[df.loc[:, "commitment_date"] != "-"]
+    df['commitment_date'] = pd.to_datetime(df["commitment_date"], format="%d %b %Y")
+
+    return df
+
+def hl_wb_to_df():
+    """
+    This function converts the wb high level file to a pandas dataframe. 
+    """
+    f = open("final_project/wb_hl_data.csv")
+
+    df = pd.read_csv(f)
+    return df
