@@ -11,8 +11,8 @@ def clean_data():
     #remove unnecessary fields
     field_list = ['Project Name', 'Project Number', 'Country / Economy', 'Project Status', 'Strategic Agendas', 'Sector / Subsector', 'Description', 'commitment_date', 'Amount', 'project_url']
     cleaned_list = []
-    country_proj ={}
-    proj_id = {}
+    #country_proj ={}
+    #proj_id = {}
     for row in data:
         cleaned_project = {}
         for key in row.keys():
