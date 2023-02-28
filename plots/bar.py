@@ -24,9 +24,9 @@ def build_bar(df, country):
 
     # Build the first bar graph
     fig2 = px.bar(bar_data_filter, 
-                 x = "Project Type / Modality of Assistance", 
+                 x = "Project Status", 
                  y = "Amount",
-                 color = "Project Status",
+                 color = "Project Type / Modality of Assistance",
                  title = f"Commitment Amount per Project Type in {country}",
                  labels = {"Amount": "Commitment Amount"})
     dcc.Graph(figure=fig2)
