@@ -73,8 +73,23 @@ def clean_data():
     #convert to csv    
     df.to_csv("clean_df.csv", index=False)
 
-def make_token(df):
+
+def merg_climate_df():
+    df_2019 = pd.read_csv('ADB Climate-2019.csv')
+    df_2020 = pd.read_csv('ADB Climate-2020.csv')
+    df_2021 = pd.read_csv('ADB Climate-2021.csv')
+
+    df_2020.dropna(how='all', axis=1, inplace=True)
+    new_df_2020 = df_2020.drop(['Other Sector(s) Covered'], axis = 1)
     
+    frames = [df_2019, new_df_2020, df_2021]
+    return pd.concat(frames)
+
+def make_token_column(df, file_name):
+    """
+    Making tokens for description and making new column to datafram
+    """
+
     sp = spacy.load("en_core_web_sm")
     stopwords = sp.Defaults.stop_words
     token_lst = []
@@ -84,6 +99,20 @@ def make_token(df):
             if word not in stopwords:
                 token_lst.append(word)
         df = df["Tokens"] = token_lst
+
+def climate_tag_token_lst(df):
+    df = merg_climate_df()
+    sp = spacy.load("en_core_web_sm")
+    stopwords = sp.Defaults.stop_words
+    token_lst = {}
+    for index, row in df.itterows():
+        doc = sp(row['Project Name'])
+        for word in doc:
+            if word not in stopwords and word not in token_lst:
+                token_lst[word] = 1
+            else:
+                token_lst[word] += 1
+    return  token_lst
 
 
 
