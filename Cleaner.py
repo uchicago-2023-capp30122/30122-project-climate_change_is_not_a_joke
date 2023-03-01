@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import spacy
 
 def clean_data():
     with open('adb_projects.json') as f:
@@ -71,6 +72,20 @@ def clean_data():
     print(df)
     #convert to csv    
     df.to_csv("clean_df.csv", index=False)
+
+def make_token(df):
+    
+    sp = spacy.load("en_core_web_sm")
+    stopwords = sp.Defaults.stop_words
+    token_lst = []
+    for index, row in df.itterows():
+        doc = sp(row["Project Description"])
+        for word in doc:
+            if word not in stopwords:
+                token_lst.append(word)
+        df = df["Tokens"] = token_lst
+
+
 
 
 
