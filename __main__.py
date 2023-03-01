@@ -10,15 +10,15 @@ import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
 import plotly.express as px
 import plotly.graph_objs as go
+import pandas as pd
 
 #from final_project.plots.map import project_map 
 from final_project.dashboard import app
-from final_project.clean_data import adb_json_to_df as adb
 from final_project.clean_data import hl_wb_to_df as hl
-from final_project.dicts import style_dict as sd
 
 # Construct Dataframes
-df = adb()
+f = open("final_project/clean_data.csv")
+df = pd.read_csv(f)
 df_hl = hl()
 
 country_options = [{"label": country, "value": country} for country in df["Country / Economy"].unique()]
