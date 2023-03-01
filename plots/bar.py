@@ -2,35 +2,14 @@
 Bar Graph
 '''
 
-from dash import Dash, dcc, html
+from dash import Dash, dcc, html, Input, Output
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
 
 from final_project.dicts import style_dict
-
-def build_bar(df, country):
-
-    bar_data_filter = df[df["Country / Economy"] == country]
-
-    # Filter data for bar graph
-    dropdown = ["Country / Economy", 
-                "Project Status",
-                "Project Type / Modality of Assistance", 
-                "Sector / Subsector",
-                "Strategic Agendas"]
-    
-
-    # Build the first bar graph
-    fig2 = px.bar(bar_data_filter, 
-                 x = "Project Status", 
-                 y = "Amount",
-                 color = "Project Type / Modality of Assistance",
-                 title = f"Commitment Amount per Project Type in {country}",
-                 labels = {"Amount": "Commitment Amount"})
-    dcc.Graph(figure=fig2)
-    fig2.show()
+from final_project.dashboard import app
 
 # Layout    
 bar = [
@@ -40,7 +19,7 @@ bar = [
     dbc.Row(html.Br()),
 
     # Bar Graph 1
-    dbc.Row(dcc.Dropdown(id = "bar_graph",
+    dbc.Row(dcc.Dropdown(id = "bar1_graph",
                          options = [{'label': "Country", 'value': "Commitment Amount"}],
                          multi = False,
                          value = "Commitment Amount",
@@ -48,7 +27,7 @@ bar = [
                         justify = 'center'),
 
     dbc.Col([
-        dbc.Row(dcc.Graph(id = 'bar_graph', figure = {},
+        dbc.Row(dcc.Graph(id = 'bar1_graph', figure = {},
                           style = {'display': 'inline-block',
                                    'width': '80vh', 'height': '60vh'}),
                           justify = 'center')]),
@@ -72,3 +51,6 @@ bar = [
                                    'width': '80vh', 'height': '60vh'}),
                           justify = 'center')])
 ]
+
+
+

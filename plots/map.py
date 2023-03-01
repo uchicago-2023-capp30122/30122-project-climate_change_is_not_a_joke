@@ -25,7 +25,7 @@ def build_map(df):
 
 # Layout
 
-map = [
+project_map = [
     html.Br(),
     dbc.Row(html.H3("Demo Map: Investment Tracker by Year"),
     style = {'text-align': 'center'}, justify = 'center'),
