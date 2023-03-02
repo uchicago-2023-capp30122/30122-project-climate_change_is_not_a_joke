@@ -270,4 +270,4 @@ def update_table(country):
     return data_table_filter.to_dict("records")
 
 if __name__ == "__main__":
-    app.run_server()
+    app.run_server(debug = True, host = '0.0.0.0', port = 8051)
