@@ -1,6 +1,7 @@
 import pandas as pd
 import json
 import spacy
+from collections import Counter
 
 def clean_data():
     with open('adb_projects.json') as f:
@@ -83,7 +84,9 @@ def merg_climate_df():
     new_df_2020 = df_2020.drop(['Other Sector(s) Covered'], axis = 1)
     
     frames = [df_2019, new_df_2020, df_2021]
-    return pd.concat(frames)
+    climate_df = pd.concat(frames)
+    climate_df = climate_df.drop_duplicates(subset='Project Number', keep="first")
+    return climate_df
 
 def make_token_column(df, file_name):
     """
@@ -103,16 +106,29 @@ def make_token_column(df, file_name):
 def climate_tag_token_lst(df):
     df = merg_climate_df()
     sp = spacy.load("en_core_web_sm")
-    stopwords = sp.Defaults.stop_words
-    token_lst = {}
-    for index, row in df.itterows():
-        doc = sp(row['Project Name'])
-        for word in doc:
-            if word not in stopwords and word not in token_lst:
-                token_lst[word] = 1
-            else:
-                token_lst[word] += 1
-    return  token_lst
+    token_d = {}
+    token_lst = []
+    for index, row in df.iterrows():
+
+        doc =sp(row['Project Name'])
+        # print(type(doc))
+        # word_freq = Counter(doc)
+
+        for token in doc:
+        #     print(type(word))
+            if token.is_stop or token.is_punct or token.like_num:
+                continue
+            token_lst.append(token.text)
+            # if token.text in token_d:
+            #     token_d[token.text] += 1
+            # else:
+            #    token_d[token.text] = 1
+    word_freq = Counter(token_lst)
+    top_tokens = word_freq.most_common(1000)
+    df = pd.DataFrame(top_tokens) 
+    with open('tokens', 'w') as f:
+        df.to_csv('tokens.csv')
+    
 
 
 
