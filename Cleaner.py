@@ -76,9 +76,9 @@ def clean_data():
 
 
 def merg_climate_df():
-    df_2019 = pd.read_csv('ADB Climate-2019.csv')
-    df_2020 = pd.read_csv('ADB Climate-2020.csv')
-    df_2021 = pd.read_csv('ADB Climate-2021.csv')
+    df_2019 = pd.read_csv('adb_19-21_climate_data/ADB Climate-2019.csv')
+    df_2020 = pd.read_csv('adb_19-21_climate_data/ADB Climate-2020.csv')
+    df_2021 = pd.read_csv('adb_19-21_climate_data/ADB Climate-2021.csv')
 
     df_2020.dropna(how='all', axis=1, inplace=True)
     new_df_2020 = df_2020.drop(['Other Sector(s) Covered'], axis = 1)
@@ -88,18 +88,7 @@ def merg_climate_df():
     climate_df = climate_df.drop_duplicates(subset='Project Number', keep="first")
     return climate_df
 
-def make_token_column(df):
-    """
-    Making tokens for description and making new column to datafram
-    """
 
-    sp = spacy.load("en_core_web_sm")
-    for index, row in df.itterows():
-        doc = sp(row["Project Description"])
-        for word in doc:
-            if word not in stopwords:
-                token_lst.append(word)
-        df = df["Tokens"] = token_lst
 
 def climate_tag_token_lst(df):
     """
@@ -123,50 +112,39 @@ def climate_tag_token_lst(df):
     with open('tokens', 'w') as f:
         df.to_csv('tokens.csv')
     
-
-
 def add_climate_tag(df):
 
 
     sp = spacy.load("en_core_web_sm")
     tag = pd.read_csv('adb_19-21_climate_data/climate_tag_words.csv')
     
-
-
     for index, row in df.iterrows():
 
         doc = sp(row['Project Name'])
         words = [token.text for token in doc if not token.is_stop or not token.is_punct]
         for word in words:
-            print(word)
-            if word in ['(', ')'] or word == "2)-" or word == "1)-":
-    
+            if word in ['(', ')'] or word == "2)-" or word == "1)-" or '):':
                 continue
-    
-        #     if token.is_stop or token.is_punct or token.like_num:
-        #         continue
             if tag["Tag"].str.contains(word).any():
-                print(word)
                 df.loc[index,['Climate-Related']] = 'Yes'
                 break
             else:
                 df.loc[index,['Climate-Related']] = 'No'
-                print("no")
+    df.to_csv("tagged_clean_df.csv", index=False)      
     return df 
-            
 
+def make_token_column(df, name):
+    """
+    Making tokens for description and making new column to datafram
+    """
 
-
-
-
-
-
-
-
-
-#    words = [token.text
-#          for token in doc
-#          if not token.is_stop and not token.is_punct]
+    sp = spacy.load("en_core_web_sm")
+    for index, row in df.iterrows():
+            doc = sp(str(row["Project Description"]))
+            words = [token.text for token in doc if not token.is_stop or not token.is_punct or token.like_num]
+            df.at[index,'Tokens'] = words
+    df.to_csv(name, index=False)
+    
 
 
 
