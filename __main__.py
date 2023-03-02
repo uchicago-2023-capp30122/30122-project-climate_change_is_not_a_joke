@@ -7,8 +7,8 @@ from dash import html, dcc, Input, Output, dash_table
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
+import datetime
 
-#from final_project.plots.map import project_map 
 from final_project.dashboard import app
 from final_project.clean_data import hl_wb_to_df as hl
 
@@ -235,7 +235,7 @@ def update_scatter(country):
                      labels = {"Commitment Amount": "Commitment Amount"},
                      trendline = "ols")
     
-    fig.add_vline(x = "2016-11-01", 
+    fig.add_vline(x = datetime.datetime.strptime("2016-11-01", "%Y-%m-%d").timestamp() * 1000, 
                   line_dash = "dash", 
                   line_color = "darkgreen",
                   annotation_text = "Paris Agreement Ratification", 
