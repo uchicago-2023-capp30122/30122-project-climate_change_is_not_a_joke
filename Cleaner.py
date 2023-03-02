@@ -88,14 +88,12 @@ def merg_climate_df():
     climate_df = climate_df.drop_duplicates(subset='Project Number', keep="first")
     return climate_df
 
-def make_token_column(df, file_name):
+def make_token_column(df):
     """
     Making tokens for description and making new column to datafram
     """
 
     sp = spacy.load("en_core_web_sm")
-    stopwords = sp.Defaults.stop_words
-    token_lst = []
     for index, row in df.itterows():
         doc = sp(row["Project Description"])
         for word in doc:
@@ -104,31 +102,73 @@ def make_token_column(df, file_name):
         df = df["Tokens"] = token_lst
 
 def climate_tag_token_lst(df):
+    """
+    creates a list of tokens from the known ADB Climate projects 
+    Returns: CSV
+    """
     df = merg_climate_df()
     sp = spacy.load("en_core_web_sm")
-    token_d = {}
     token_lst = []
-    for index, row in df.iterrows():
-
-        doc =sp(row['Project Name'])
-        # print(type(doc))
-        # word_freq = Counter(doc)
+    for _, row in df.iterrows():
+        doc = sp(row['Project Name'])
 
         for token in doc:
-        #     print(type(word))
             if token.is_stop or token.is_punct or token.like_num:
                 continue
             token_lst.append(token.text)
-            # if token.text in token_d:
-            #     token_d[token.text] += 1
-            # else:
-            #    token_d[token.text] = 1
+
     word_freq = Counter(token_lst)
-    top_tokens = word_freq.most_common(1000)
+    top_tokens = word_freq.most_common()
     df = pd.DataFrame(top_tokens) 
     with open('tokens', 'w') as f:
         df.to_csv('tokens.csv')
     
+
+
+def add_climate_tag(df):
+
+
+    sp = spacy.load("en_core_web_sm")
+    tag = pd.read_csv('adb_19-21_climate_data/climate_tag_words.csv')
+    
+
+
+    for index, row in df.iterrows():
+
+        doc = sp(row['Project Name'])
+        words = [token.text for token in doc if not token.is_stop or not token.is_punct]
+        for word in words:
+            print(word)
+            if word in ['(', ')'] or word == "2)-" or word == "1)-":
+    
+                continue
+    
+        #     if token.is_stop or token.is_punct or token.like_num:
+        #         continue
+            if tag["Tag"].str.contains(word).any():
+                print(word)
+                df.loc[index,['Climate-Related']] = 'Yes'
+                break
+            else:
+                df.loc[index,['Climate-Related']] = 'No'
+                print("no")
+    return df 
+            
+
+
+
+
+
+
+
+
+
+
+#    words = [token.text
+#          for token in doc
+#          if not token.is_stop and not token.is_punct]
+
+
 
 
 
