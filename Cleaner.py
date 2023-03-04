@@ -37,6 +37,9 @@ def clean_data():
     #remove those with no effectivity date
     df.drop(df[df['commitment_date'] =='-'].index, inplace = True)
 
+    #clean status column
+    df.loc[df['Project Status'].str.contains('Approved'), 'Project Status'] = 'Active'
+    
     #clean sector column
     df['Sector'] = (df['Sector / Subsector'].str.split('/').str[0]).str.strip()
     df = df.dropna(subset=['Sector'])
