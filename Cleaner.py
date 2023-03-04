@@ -93,7 +93,7 @@ def merg_climate_df():
 
 
 
-def climate_tag_token_lst(df):
+def climate_tag_token_lst(df,max_num):
     """
     creates a list of tokens from the known ADB Climate projects 
     Returns: CSV
@@ -110,13 +110,13 @@ def climate_tag_token_lst(df):
             token_lst.append(token.text)
 
     word_freq = Counter(token_lst)
-    top_tokens = word_freq.most_common()
+    top_tokens = word_freq.most_common(max_num)
     df = pd.DataFrame(top_tokens) 
     with open('tokens', 'w') as f:
         df.to_csv('tokens.csv')
     
 def add_climate_tag(df):
-    
+
     sp = spacy.load("en_core_web_sm")
     tag = pd.read_csv('adb_19-21_climate_data/climate_tag_words.csv')
     
