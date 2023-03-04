@@ -1,6 +1,5 @@
+import os
 import pandas as pd
-import pathlib
-import re
 
 
 def load_data(input_file):
@@ -29,11 +28,16 @@ def load_data(input_file):
 
 def clean_wb_data():
     """
-    """
-    # # Load data from an Excel file
-    # df = pd.read_excel("uncleaned consolidated post and pre data - wb_updated.xlsx")
+    This function loads the uncleaned data file, 
+    preprocesses it by removing unnecessary fields, saves the modified data to a CSV file, 
+    and returns the modified data as a DataFrame.
 
-    df = load_data("uncleaned consolidated post and pre data - wb_updated.xlsx")
+    Returns:
+    pandas.DataFrame
+    """
+    data_path = os.path.join('data', 'uncleaned consolidated post and pre data - wb_updated.xlsx')
+    df = load_data(data_path)
+
     #Preprocessing data to remove unnecessary fields
     df = df.drop(['Borrower', 'Environmental Assessment Category', 'Sector '], axis=1)
     df = df[df['Commitment Amount'] != 0]
@@ -41,21 +45,38 @@ def clean_wb_data():
     df = df[df['Year'] != 2010]
 
     # Save the modified data to a CSV file
-    df.to_csv('wb_data.csv', index=False)
+    df.to_csv(os.path.join('data', 'wb_data.csv'), index=False)
 
     # Return the modified data as a DataFrame
     return df
 
 def clean_ndgain_data():
     """
+    This function loads the uncleaned data file, 
+    preprocesses it by removing unnecessary fields 
+    and saves the modified data to a CSV file,
+
+    Returns:
+        None. The function writes the cleaned DataFrame to the output CSV file.
     """
-    df = load_data('gain.csv')
-    # Drop the "ISO3" column
-    df = df.drop(columns=["ISO3","1995", "1996", "1997", "1998", "1999", "2000", 
-    "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010"], axis=1)
-    df.to_csv("gain_cleaned.csv", index=False)
+    data_path = os.path.join('data', 'gain.csv')
+    df = load_data(data_path)
+    # List of countries to keep
+    countries_to_keep = ["Afghanistan", "Armenia", "Bangladesh", "Bhutan", "Cambodia", "Georgia", 
+                         "India", "Indonesia", "Kiribati", "Kyrgyzstan", "Lao People's Democratic Republic", 
+                         "Maldives", "Mongolia", "Nepal", "Pakistan", "Papua New Guinea", "China", 
+                         "Philippines", "Samoa", "Solomon Islands", "Sri Lanka", "Tajikistan", "Thailand", "Tonga", 
+                         "Tuvalu", "Uzbekistan", "Viet Nam"]
+    # Drop all rows except for those in the list of countries to keep
+    df = df[df["Name"].isin(countries_to_keep)]
+    # Drop all columns except for "Name" and "2020"
+    df = df[["Name", "2020"]]
+    # Rename the columns
+    df = df.rename(columns={"Name": "Country Name", "2020": "2020 Gain Index"})
+    df.to_csv(os.path.join('data', 'gain_cleaned.csv'), index=False)
     # Print a message indicating that the function has completed
-    print("Data cleaning complete")
+    print("Data cleaning complete") 
+ 
 
 
 def clean_gdpcapita_data():
@@ -71,15 +92,16 @@ def clean_gdpcapita_data():
         None
         The function writes the cleaned DataFrame to the output CSV file.
     """
-    df = load_data('gdp_percapita.csv')
-    df = df.loc[:, ['Country Name', 'Indicator Name', '2011', '2012', '2013', '2014', 
-    '2015', '2016','2017', '2018', '2019', '2020', '2021']]
+    data_path = os.path.join('data', 'gdp_percapita.csv')
+    df = load_data(data_path)
+    df = df.loc[:, ['Country Name', '2020']]
     df = df.dropna()
-    df[['2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', 
-    '2021']] = df[['2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021']].round(0).astype(int)
-    countries_to_keep = ['Afghanistan', 'Armenia', 'Bangladesh', 'Bhutan', 'Cambodia', 'Georgia', 'India', 'Indonesia', 'Kiribati', 'Kyrgyz Republic', "Lao People's Democratic Republic", 'Maldives', 'Mongolia', 'Nauru', 'Nepal', 'Pakistan', 'Papua New Guinea', "People's Republic of China", 'Philippines', 'Samoa', 'Solomon Islands', 'Sri Lanka', 'Tajikistan', 'Thailand', 'Tonga', 'Tuvalu', 'Uzbekistan', 'Viet Nam']
+    countries_to_keep = ["Afghanistan", "Armenia", "Bangladesh", "Bhutan", "Cambodia", "Georgia", 
+                         "India", "Indonesia", "Kiribati", "Kyrgyz Republic", "Lao PDR", 
+                         "Maldives", "Mongolia", "Nepal", "Pakistan", "Papua New Guinea", "China", 
+                         "Philippines", "Samoa", "Solomon Islands", "Sri Lanka", "Tajikistan", "Thailand", "Tonga", 
+                         "Tuvalu", "Uzbekistan", "Vietnam"]
     df = df[df['Country Name'].isin(countries_to_keep)]
-    df.to_csv("gdp_cleaned.csv", index=False)
+    df = df.rename(columns={"2020": "2020 GDP Per Capita"})
+    df.to_csv(os.path.join('data', 'gdp_cleaned.csv'), index=False)
     print("Data cleaning complete")
-
-
