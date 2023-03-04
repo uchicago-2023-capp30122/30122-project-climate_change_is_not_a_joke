@@ -116,18 +116,15 @@ def climate_tag_token_lst(df):
         df.to_csv('tokens.csv')
     
 def add_climate_tag(df):
-
-
+    
     sp = spacy.load("en_core_web_sm")
     tag = pd.read_csv('adb_19-21_climate_data/climate_tag_words.csv')
     
     for index, row in df.iterrows():
 
         doc = sp(row['Project Name'])
-        words = [token.text for token in doc if not token.is_stop or not token.is_punct]
+        words = [token.text for token in doc if not token.is_stop and not token.is_punct and not token.like_num]
         for word in words:
-            if word in ['(', ')'] or word == "2)-" or word == "1)-" or '):':
-                continue
             if tag["Tag"].str.contains(word).any():
                 df.loc[index,['Climate-Related']] = 'Yes'
                 break
@@ -144,12 +141,11 @@ def make_token_column(df, name):
     sp = spacy.load("en_core_web_sm")
     for index, row in df.iterrows():
             doc = sp(str(row["Project Description"]))
-
-
-            words = [token.text for token in doc if not token.is_stop and not token.is_punct and not token.like_num]
+            words =[word.lemma_.lower() for word in doc if not word.is_stop and not word.is_punct and not word.like_num]
             df.at[index,'Tokens'] = words
     df.to_csv(name, index=False)
     
+
 
 
 
