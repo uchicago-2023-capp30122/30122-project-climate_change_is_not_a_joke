@@ -10,7 +10,10 @@ packages = [{include = "30122_project_climate_change_is_not_a_joke"}]
 python = "^3.8.1"
 spacy = "^3.5.0"
 pandas = "^1.5.3"
+ipython = "^8.11.0"
 rdd = "^0.0.3"
+matplotlib = "^3.7.0"
+scikit-learn = "^1.2.1"
 
 
 [build-system]
