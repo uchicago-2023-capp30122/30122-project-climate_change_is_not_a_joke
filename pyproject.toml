@@ -9,6 +9,8 @@ packages = [{include = "30122_project_climate_change_is_not_a_joke"}]
 [tool.poetry.dependencies]
 python = "^3.8.1"
 spacy = "^3.5.0"
+pandas = "^1.5.3"
+rdd = "^0.0.3"
 
 
 [build-system]
