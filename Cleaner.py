@@ -141,7 +141,9 @@ def make_token_column(df, name):
     sp = spacy.load("en_core_web_sm")
     for index, row in df.iterrows():
             doc = sp(str(row["Project Description"]))
-            words = [token.text for token in doc if not token.is_stop or not token.is_punct or token.like_num]
+
+
+            words = [token.text for token in doc if not token.is_stop and not token.is_punct and not token.like_num]
             df.at[index,'Tokens'] = words
     df.to_csv(name, index=False)
     
