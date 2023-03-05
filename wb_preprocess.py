@@ -107,25 +107,20 @@ def clean_gdpcapita_data():
     df.to_csv(os.path.join('data', 'gdp_cleaned.csv'), index=False)
     print("Data cleaning complete")
 
-def calc_avg_commitment_amount_by_year(df):
-    # create a new dataframe to store the results
-    result_df = pd.DataFrame(columns=['Year', 'Average Commitment Amount'])
-    
-    # loop through each unique year in the 'Year' column of the input dataframe
-    for year in df['Year'].unique():
-        # filter the dataframe by the current year
-        year_df = df[df['Year'] == year]
-        
-        # calculate the average commitment amount for the current year
-        avg_commitment_amount = year_df['Commitment Amount'].mean()
-        
-        # add the year and average commitment amount to the result dataframe
-        result_df = result_df.append({'Year': year, 'Average Commitment Amount': avg_commitment_amount}, ignore_index=True)
-    
-    # return the result dataframe
-    return result_df
 
 def calc_avg_commitment_amount_by_year(df):
+    """
+    Calculate average commitment amount by year.
+
+    Parameters:
+    df : pandas.DataFrame
+        Input dataframe containing columns 'Year' and 'Commitment Amount'
+
+    Returns:
+    pandas.DataFrame - A dataframe containing two columns: 'Year' and 'Average Commitment Amount'
+
+
+    """
     # create a new dataframe to store the results
     result_df = pd.DataFrame(columns=['Year', 'Average Commitment Amount'])
     
@@ -146,6 +141,13 @@ def calc_avg_commitment_amount_by_year(df):
 
 def avg_commitment_plot():
     """
+    Generate a bar plot showing the average commitment amount by year.
+
+    Parameters:
+    None
+
+    Returns:
+    None. Creates a bar plot
     """
     df = clean_wb_data()
     avg_commitment_amount_by_year = calc_avg_commitment_amount_by_year(df)
