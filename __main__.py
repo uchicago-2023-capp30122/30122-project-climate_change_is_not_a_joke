@@ -9,10 +9,27 @@ import plotly.express as px
 import pandas as pd
 
 from final_project.dashboard import app
+from final_project.stats import rda_logreg, rda_linearreg, hist_data
 
 # Construct Dataframes
-ll_f = open("final_project/clean_data.csv")
-df = pd.read_csv(ll_f)
+ll_adb = open("final_project/ll_adb.csv")
+ll_wb = open("final_project/ll_wb.csv")
+adb_df = pd.read_csv(ll_adb)
+wb_df = pd.read_csv(ll_wb)
+
+ll_wb_2 = open("final_project/ll_wb.csv")
+wb_df_2 = pd.read_csv(ll_wb_2)
+
+adb_df = adb_df.loc[:, ['Country', 'Region', 'Project Name', 'Project Description', 
+                    'Status', 'Project URL', 'Effective Date', 'Commitment Amount',
+                    'Pre/Post Paris Agreement']]
+wb_df = wb_df.loc[:, ['Country', 'Region', 'Project Name', 'Project Description', 
+                    'Status', 'Project URL', 'Effective Date', 'Commitment Amount',
+                    'Pre/Post Paris Agreement']]
+df_lst = [adb_df, wb_df]
+df = pd.concat(df_lst)
+df = df.sort_values(by = ['Country'])
+
 df["Effective Date"] = pd.to_datetime(df['Effective Date'])
 df["Pre/Post Paris Agreement"] = df["Pre/Post Paris Agreement"].map({0: "Pre", 1: "Post"})
 
@@ -36,11 +53,15 @@ big_dropdown_style = {"display": "inline-block",
                   'color': "#65463E",
                   'width': '85%'}
 
-plot_style = {'width': '600'}
+plot_style = {'width': "100%"}
 
 country_options = [{"label": country, "value": country} for country in df["Country"].unique()]
 
 # Build Figures
+logreg_fig = rda_logreg()
+linreg_fig = rda_linearreg()
+hist_fig = hist_data()
+
 map_fig = px.choropleth(hl_df,
                         locations = "Country", 
                         locationmode = "country names",
@@ -52,8 +73,6 @@ map_fig.update_layout(paper_bgcolor = "#D2E5D0")
 scatter_fig = px.scatter(df, 
                          x = "Effective Date", 
                          y = "Commitment Amount",
-                         hover_name = "Project Name",
-                         hover_data = ["Country", "Project URL"],
                          title = "Project Investment over Time",
                          labels = {"Commitment Amount": "Commitment Amount"},
                          trendline = "ols")
@@ -76,13 +95,16 @@ app.layout = dbc.Container([
                     justify = 'center'),
     
     html.Br(),
+    html.Div(children=[dbc.Row([dbc.Col([
 
-    html.Div(children = [
-            dbc.Row([
-            dbc.Col([dbc.Card([
+                    html.Br(),
+                    html.Br(),
+                    html.Br(),
+                    
+                    dbc.Card([
                                 
-                     html.H5("Filter: Pre/Post Paris Agreement"),
-                     dcc.Dropdown(id = "primary_map_filter",
+                    html.H5("Filter: Pre/Post Paris Agreement"),
+                    dcc.Dropdown(id = "primary_map_filter",
                                   style = big_dropdown_style,
                                   options = [{"label": "Pre-Paris Agreement", 
                                               "value": "(Pre-Paris Agreement)"}, 
@@ -106,32 +128,54 @@ app.layout = dbc.Container([
                                             "Cumulative Project Funding",
                                             "Climate Change Project Funding",
                                             "Climate Change Project Funding Proportion"])],
-                                style = {'width': 500}),
+                                style = {"text-align": "center",
+                                         'width': "75%",
 
+                                         "padding": "2rem 1rem"},
+                                         color = "#D2E5D0")]),
 
-            dbc.Col([dbc.Row(dcc.Graph(id = 'map',
+                    dbc.Col([(dcc.Graph(id = 'map',
                                        figure = map_fig,
-                                       style = plot_style))])])])]),
+                                       style = plot_style))])])]),
 
     html.Br(),
 
-    dbc.Row(html.H3("High Level Regression"), 
+    dbc.Row(html.H3("High Level Regressions"), 
                     style = header_style,
                     justify ='center'),
-
     html.Br(),
 
-    dbc.Row(dcc.Graph(id = 'hl_scatter',
-                      figure = {},
-                      style = {"width": 700}),
-                      justify = "left"),
+    html.Div(children = 
+             [html.Div(dcc.Graph(id = 'logreg_fig', 
+                                 figure = logreg_fig,
+                                 style = plot_style), 
+                                 style = {'display': 'inline-block'}),
+            
+              html.Div(dcc.Graph(id = 'linreg_fig',
+                                 figure = linreg_fig,
+                                 style = plot_style), 
+                                 style = {'display': 'inline-block'})],
+                                 style = {'width': '100%', 
+                                          'display': 'inline-block'}),  
+    dbc.Row(html.Br()),
     html.Br(),
+
+    dbc.Row(html.H3("High Level Histogram"), 
+                    style = header_style,
+                    justify ='center'),
+    html.Br(),
+    
+    dbc.Row(dcc.Graph(id = 'hist_fig',
+                      figure = hist_fig,
+                      style = plot_style),
+                      justify = "center"),
+
+    dbc.Row(html.Br()),
     html.Br(),
     
     dbc.Row(html.H2("Climate Change Project Deep Dive by Country"), 
                     style = header_style,
                     justify = 'center'),
-
     html.Br(),
 
     dbc.Row(html.H4("Filter: Select a Country!"), 
@@ -143,7 +187,6 @@ app.layout = dbc.Container([
                          multi = False,
                          style = small_dropdown_style),
                          justify = "center"),
-    
     html.Br(),
 
     dbc.Row(html.H4("Filter: Select a Second Country to Compare!"), 
@@ -155,10 +198,9 @@ app.layout = dbc.Container([
                          multi = False,
                          style = small_dropdown_style),
                          justify = "center"),
-
     html.Br(),
     
-    dbc.Row(html.H3("Data Table: "), 
+    dbc.Row(html.H3("Data Table: Comparison of Country GDP and Climate Vulnerability"), 
                     style = header_style,
                     justify = 'center'),
     
@@ -173,7 +215,6 @@ app.layout = dbc.Container([
                                                'textOverflow': 'ellipsis'},
                                  style_cell={'textAlign': 'center',
                                              'font-family': 'Helvetica'})),
-
     html.Br(),
 
     dbc.Row("The ND-GAIN Country Index summarizes a country's vulnerability to \
@@ -181,7 +222,6 @@ app.layout = dbc.Container([
             readiness to improve resilience. It aims to help governments, businesses \
             and communities better prioritize investments for a more efficient response \
             to the immediate global challenges ahead."),
-    
     html.Br(),
 
     dbc.Row("World wide ranking by ND-GAIN Index, higher scores are better"),
@@ -195,7 +235,7 @@ app.layout = dbc.Container([
                                'display': 'inline-block'}),
     
     html.Div(dcc.Dropdown(id = "bar_x_filter",
-                          options = ["Status", "Pre/Post Paris Agreement", "Sector"],
+                          options = ["Status", "Pre/Post Paris Agreement"],
                           multi = False),
                           style = {'width': '40%', 'display': 'inline-block'}),
     html.Div(html.Br()),
@@ -203,7 +243,7 @@ app.layout = dbc.Container([
                               style = {'width': '100%', 'display': 'inline-block'}),
     
     html.Div(dcc.Dropdown(id = "bar_color_filter",
-                            options = ["Status", "Pre/Post Paris Agreement", "Sector"],
+                            options = ["Status", "Pre/Post Paris Agreement"],
                             multi = False),
                             style = {'width': '40%', 'display': 'inline-block'}),
     html.Br(),
@@ -233,6 +273,7 @@ app.layout = dbc.Container([
     dbc.Row(dash_table.DataTable(id = "ll_data_table",
                                  data = df.to_dict('records'), 
                                  columns = [{"name": "Project Name", "id": "Project Name"},
+                                            {"name": "Status", "id": "Status"},
                                             {"name": "Effective Date", "id": "Effective Date"},
                                             {"name": "Project URL", "id": "Project URL"}],
                                  page_current = 0,
@@ -299,8 +340,7 @@ def update_map(primary_filter, secondary_filter, dd):
             new_df = new_df[new_df['Funding Source'] == "Total"]
 
     # Filter map title
-   
-    title_label = "Project Map"
+    title_label = "Map of Total Climate Change Projects from November 2010 to Now"
     if dd == 'Project Count':
         title_label = "Map of Total Projects from November 2010 to Now"
     elif dd == "Climate Change Project Count":
@@ -322,10 +362,12 @@ def update_map(primary_filter, secondary_filter, dd):
                             scope = 'asia',
                             title = f"{title_label}")
 
-    map_fig.update_coloraxes(colorbar_orientation = "h")
+    map_fig.update_coloraxes(colorbar_orientation = "h", colorbar_len = .7)
     map_fig.update_geos(center = {"lat": 28, "lon": 87})
-    map_fig.update_layout(coloraxis_colorbar_y = -0.1,
-                          paper_bgcolor = "#D2E5D0")
+    map_fig.update_layout(coloraxis_colorbar_y = -0.2,
+                          paper_bgcolor = "#D2E5D0",
+                          title_x = 0.5)
+    map_fig.update_layout(margin= {"l":20,"r":12,"t":40, "b":40, "pad": 10})
 
     return map_fig
 
@@ -352,26 +394,14 @@ def update_table(country_dd, secondary_country_dd):
 
 def update_scatter(country):
 
-    scatter_df = df[df["Country"] == country]
-    y_val = pd.to_datetime(scatter_df['Effective Date']).dt.to_period("Y").value_counts()
-    y_val.sort_index()
-    total_commitment = scatter_df.groupby(scatter_df["Effective Date"].dt.to_period("Y"))['Commitment Amount'].sum()
-    fin_scatter_df = pd.DataFrame({"Project Count": y_val}, {"Year": y_val.index.to_series().astype(int)})
-    fin_scatter_df["Year"] = y_val.index.to_series().astype(int)
-    fin_scatter_df["Total Commitment Amount"] = total_commitment
-    fin_scatter_df = pd.DataFrame({'Project Count': pd.Series(dtype='int'),
-                                   'Year': pd.Series(dtype='int'),
-                                   'Total Commitment Amount': pd.Series(dtype='int')})
-    
-    for i, v in y_val.items():
-        fin_scatter_df["Project Count"] = v
-        fin_scatter_df["Year"] = i 
-        fin_scatter_df["Total Commitment Amount"] = total_commitment[i]
+    scatter_df = wb_df_2[wb_df_2["Country"] == country]
+    scatter_df['Project Count by Year'] = scatter_df.groupby(['Year'])['Project Name'].transform('count')
+    scatter_df["Project Commitment Amount by Year"] = scatter_df.groupby(["Year"])["Commitment Amount"].transform(sum)
 
-    fig = px.scatter(fin_scatter_df, 
+    fig = px.scatter(scatter_df, 
                      x = "Year",
-                     y = "Project Count",
-                     size = "Total Commitment Amount",
+                     y = "Project Count by Year",
+                     size = "Project Commitment Amount by Year",
                      title = f"Project Over Time in {country}",
                      labels = {"Project Count": "Project Count"},
                      trendline = "ols")
@@ -381,8 +411,6 @@ def update_scatter(country):
                   line_color = "darkgreen",
                   annotation_text = "Paris Agreement Ratification", 
                   annotation_position = "top left")
-    
-    fig.update_layout(yaxis_range = [0,100])
     
     return fig
 
