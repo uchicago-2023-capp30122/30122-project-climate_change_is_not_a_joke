@@ -8,7 +8,7 @@ from scipy import stats
 
 def rda_logreg():
     """
-    Reads in World Bank data and does regression discontinuity analysis to pre- and post-treatment
+    Reads in ADB data and does regression discontinuity analysis to pre- and post-treatment
     data. Creates a scatter plot of Log Commitment Amount vs. Year with separate trendlines
     for the pre- and post-treatment periods.
 
@@ -100,7 +100,7 @@ def rda_linearreg():
     Returns
     None. Creates Regression Plot
     """
-    df = pd.read_csv('../data/wb_data.csv')
+    df = pd.read_csv('../final_adb.csv')
     
     cutoff_year = 2017
     df['Post_2017'] = df['Year'] >= 2017
@@ -179,7 +179,7 @@ def hist_data():
     None. Creates histogram
     """
 
-    df = pd.read_csv('../data/wb_data.csv')
+    df = pd.read_csv('../final_adb.csv')
 
     # Convert Commitment_Amount to millions of dollars
     df['Commitment_Amount'] = df['Commitment_Amount'] / 1000000
