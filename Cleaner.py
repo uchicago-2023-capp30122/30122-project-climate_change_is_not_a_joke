@@ -1,7 +1,7 @@
 import pandas as pd
 import json
-import spacy
 from collections import Counter
+import spacy
 
 def clean_data():
     with open('adb_projects.json') as f:
@@ -38,7 +38,7 @@ def clean_data():
     df.drop(df[df['commitment_date'] =='-'].index, inplace = True)
 
     #clean status column
-    df.loc[df['Project Status'].str.contains('Approved'), 'Project Status'] = 'Active'
+    df['Project Status'] = df['Project Status'].replace('Approved', 'Active')
     
     #clean sector column
     df['Sector'] = (df['Sector / Subsector'].str.split('/').str[0]).str.strip()
@@ -70,8 +70,11 @@ def clean_data():
     #dropping unnecessary columns
     df = df.drop(columns=["Country / Economy", "Project Number", "Sector / Subsector", "Amount"])
 
+    # adding year column
+    df['Year'] = pd.DatetimeIndex(df['Effective Date']).year
+
     #rearranging columns
-    df = df[['Country', 'Region', 'Project Name', 'Project Description', 'Status', 'Project URL', 'Effective Date', 'Commitment Amount', 'Pre/Post Paris Agreement', 'Sector']]
+    df = df[['Country', 'Region', 'Project Name', 'Project Description', 'Status', 'Project URL', 'Effective Date', 'Commitment Amount', 'Pre/Post Paris Agreement','Year', 'Sector']]
 
     print(df)
     #convert to csv    
@@ -125,12 +128,13 @@ def add_climate_tag(df):
         doc = sp(row['Project Name'])
         words = [token.text for token in doc if not token.is_stop and not token.is_punct and not token.like_num]
         for word in words:
+            if word == '2)-' or word == '1)-':
+                continue
             if tag["Tag"].str.contains(word).any():
                 df.loc[index,['Climate-Related']] = 'Yes'
                 break
             else:
-                df.loc[index,['Climate-Related']] = 'No'
-    df.to_csv("tagged_clean_df.csv", index=False)      
+                df.loc[index,['Climate-Related']] = 'No'   
     return df 
 
 def make_token_column(df, name):
@@ -141,8 +145,11 @@ def make_token_column(df, name):
     sp = spacy.load("en_core_web_sm")
     for index, row in df.iterrows():
             doc = sp(str(row["Project Description"]))
+           
             words =[word.lemma_.lower() for word in doc if not word.is_stop and not word.is_punct and not word.like_num]
-            df.at[index,'Tokens'] = words
+            
+            df.at[index,'Tokens'] = str(words)
+            print(words)
     df.to_csv(name, index=False)
     
 
