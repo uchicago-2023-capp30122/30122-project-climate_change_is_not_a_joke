@@ -6,7 +6,6 @@ import statsmodels.api as sm
 from scipy import stats
 
 
-
 def rda_logreg():
     """
     Reads in World Bank data and does regression discontinuity analysis to pre- and post-treatment
@@ -19,10 +18,10 @@ def rda_logreg():
     df = pd.read_csv('../data/wb_data.csv')
     
     # Drop rows with negative or zero 'Commitment_Amount'
-    df = df[df['Commitment_Amount'] > 0]
+    df = df[df['Commitment Amount'] > 0]
 
     # Convert Commitment_Amount to log10
-    df['Commitment_Amount'] = np.log10(df['Commitment_Amount'])
+    df['Commitment Amount'] = np.log10(df['Commitment Amount'])
 
     cutoff_year = 2017
     df['Post_2017'] = df['Year'] >= 2017
@@ -33,31 +32,28 @@ def rda_logreg():
     treatment.loc[:, 'Treatment'] = 1
     control.loc[:, 'Treatment'] = 0
 
-    treatment_model = LinearRegression().fit(treatment[['Year']], treatment['Commitment_Amount'])
-    control_model = LinearRegression().fit(control[['Year']], control['Commitment_Amount'])
+    treatment_model = LinearRegression().fit(treatment[['Year']], treatment['Commitment Amount'])
+    control_model = LinearRegression().fit(control[['Year']], control['Commitment Amount'])
 
     treatment_effect = treatment_model.coef_[0]
-    print('Treatment effect estimate:', treatment_effect)
 
-    fig = px.scatter(df, x='Year', y='Commitment_Amount', color='Post_2017')
+    fig = px.scatter(df, x='Year', y='Commitment Amount', color='Post_2017')
 
     fig.update_yaxes(tickformat='.1e', ticksuffix='M')
         
-    fig.add_trace(px.scatter(treatment, x='Year', y='Commitment_Amount',
+    fig.add_trace(px.scatter(treatment, x='Year', y='Commitment Amount',
                             color_discrete_sequence=['grey'],
                             trendline='ols', trendline_color_override='grey').data[1])
-    fig.add_trace(px.scatter(control, x='Year', y='Commitment_Amount',
+    fig.add_trace(px.scatter(control, x='Year', y='Commitment Amount',
                             color_discrete_sequence=['blue'],
                             trendline='ols', trendline_color_override='blue').data[1])
     
 
-    treatment_r_squared = treatment_model.score(treatment[['Year']], treatment['Commitment_Amount'])
-    control_r_squared = control_model.score(control[['Year']], control['Commitment_Amount'])
-    print('Treatment R-squared:', treatment_r_squared)
-    print('Control R-squared:', control_r_squared)
+    treatment_r_squared = treatment_model.score(treatment[['Year']], treatment['Commitment Amount'])
+    control_r_squared = control_model.score(control[['Year']], control['Commitment Amount'])
 
     # Calculate the treatment effect and its standard error using statsmodels
-    treatment_model = sm.OLS(treatment['Commitment_Amount'], sm.add_constant(treatment['Year'])).fit()
+    treatment_model = sm.OLS(treatment['Commitment Amount'], sm.add_constant(treatment['Year'])).fit()
     treatment_effect = treatment_model.params['Year']
     treatment_effect_se = treatment_model.bse['Year']
 
@@ -81,9 +77,6 @@ def rda_logreg():
                             text='p-value: {:.4f}'.format(p_value),
                             showarrow=False))
     fig.update_layout(annotations=annotations)
-    print('t-statistic:', t_stat)
-    print('p-value:', p_value)
-    fig.show()
 
 
 def rda_linearreg():
@@ -114,25 +107,22 @@ def rda_linearreg():
     control_model = LinearRegression().fit(control[['Year']], control['Commitment_Amount'])
 
     treatment_effect = treatment_model.coef_[0]
-    print('Treatment effect estimate:', treatment_effect)
 
-    fig = px.scatter(df, x='Year', y='Commitment_Amount', color='Post_2017')
+    fig = px.scatter(df, x='Year', y='Commitment Amount', color='Post_2017')
     
     fig.update_yaxes(tickprefix='$', ticksuffix='M')
     
-    fig.add_trace(px.scatter(treatment, x='Year', y='Commitment_Amount',
+    fig.add_trace(px.scatter(treatment, x='Year', y='Commitment Amount',
                               color_discrete_sequence=['grey'],
                               trendline='ols', trendline_color_override='grey').data[1])
-    fig.add_trace(px.scatter(control, x='Year', y='Commitment_Amount',
+    fig.add_trace(px.scatter(control, x='Year', y='Commitment Amount',
                               color_discrete_sequence=['blue'],
                               trendline='ols', trendline_color_override='blue').data[1])
 
-    treatment_r_squared = treatment_model.score(treatment[['Year']], treatment['Commitment_Amount'])
-    control_r_squared = control_model.score(control[['Year']], control['Commitment_Amount'])
-    print('Treatment R-squared:', treatment_r_squared)
-    print('Control R-squared:', control_r_squared)
+    treatment_r_squared = treatment_model.score(treatment[['Year']], treatment['Commitment Amount'])
+    control_r_squared = control_model.score(control[['Year']], control['Commitment Amount'])
 
-    treatment_model = sm.OLS(treatment['Commitment_Amount'], sm.add_constant(treatment['Year'])).fit()
+    treatment_model = sm.OLS(treatment['Commitment Amount'], sm.add_constant(treatment['Year'])).fit()
     treatment_effect = treatment_model.params['Year']
     treatment_effect_se = treatment_model.bse['Year']
 
@@ -159,9 +149,6 @@ def rda_linearreg():
                             showarrow=False))
 
     fig.update_layout(annotations=annotations)
-    fig.show()
-    print('t-statistic:', t_stat)
-    print('p-value:', p_value)
 
 
 def hist_data():
@@ -177,15 +164,10 @@ def hist_data():
     df = pd.read_csv('../data/wb_data.csv')
 
     # Convert Commitment_Amount to millions of dollars
-    df['Commitment_Amount'] = df['Commitment_Amount'] / 1000000
-    df['Commitment_Amount'] = np.log10(df['Commitment_Amount'])
+    df['Commitment Amount'] = df['Commitment Amount'] / 1000000
+    df['Commitment Amount'] = np.log10(df['Commitment Amount'])
 
-    fig = px.histogram(df, x='Commitment_Amount', nbins=20, histnorm='probability')
+    fig = px.histogram(df, x='Commitment Amount', nbins=20, histnorm='probability')
     fig.update_yaxes(title='Percentage', tickformat='.1%', range=[0, 1])
 
     fig.update_xaxes(title='Commitment Amount (Millions of Dollars)')
-    fig.show()
-
-rda_logreg()
-rda_linearreg()
-hist_data()
