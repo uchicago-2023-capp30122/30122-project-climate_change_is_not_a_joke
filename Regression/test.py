@@ -22,6 +22,9 @@ def rda_logreg():
 
     #Rename column
     df = df.rename(columns={'Commitment Amount': 'Commitment_Amount'})
+
+    #Clean rows --Year > 2010
+    df = df[df['Year'] > 2010]
     
     # Drop rows with negative or zero 'Commitment_Amount'
     df = df[df['Commitment_Amount'] > 0]
@@ -107,6 +110,9 @@ def rda_linearreg():
 
     #Rename column
     df = df.rename(columns={'Commitment Amount': 'Commitment_Amount'})
+
+    #Clean rows --Year > 2010
+    df = df[df['Year'] > 2010]    
     
     cutoff_year = 2017
     df['Post_2017'] = df['Year'] >= 2017
@@ -193,6 +199,9 @@ def hist_data():
 
     #Rename column
     df = df.rename(columns={'Commitment Amount': 'Commitment_Amount'})
+
+    #Clean rows --Year > 2010
+    df = df[df['Year'] > 2010]
 
     # Convert Commitment_Amount to millions of dollars
     df['Commitment_Amount'] = df['Commitment_Amount'] / 1000000
