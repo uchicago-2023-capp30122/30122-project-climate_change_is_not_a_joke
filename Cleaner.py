@@ -120,6 +120,17 @@ def climate_tag_token_lst(df,max_num):
     
 def add_climate_tag(df):
 
+    """
+    Creates new column and determines if project is climate realted based off
+    of list of Tag words 
+
+    Input:
+        df(pandas data frame): data frame
+
+    Return:
+        data frame 
+    """
+
     sp = spacy.load("en_core_web_sm")
     tag = pd.read_csv('adb_19-21_climate_data/climate_tag_words.csv')
     
@@ -139,7 +150,13 @@ def add_climate_tag(df):
 
 def make_token_column(df, name):
     """
-    Making tokens for description and making new column to datafram
+    Making tokens from description and making new column to dataframe
+
+    Input:
+        df(pandas data frame): data frame
+        name(str): str of what user wants to name  CSV 
+    Return:
+        CSV file 
     """
 
     sp = spacy.load("en_core_web_sm")
