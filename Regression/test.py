@@ -30,7 +30,7 @@ def rda_logreg():
     df['Commitment_Amount'] = np.log10(df['Commitment_Amount'])
 
     cutoff_year = 2017
-    df['Post_2017'] = df['Year'] >= 2017
+    df['Post_2017'] = df['Year'] >= cutoff_year
     treatment = df.loc[df['Year'] >= cutoff_year].copy()
     control = df.loc[df['Year'] < cutoff_year].copy()
 
@@ -93,7 +93,7 @@ def rda_logreg():
 
 def rda_linearreg():
     """
-    Reads in World Bank data and does regression discontinuity analysis to pre- and post-treatment
+    Reads in ADB data and does regression discontinuity analysis to pre- and post-treatment
     data. Creates a scatter plot of Commitment Amount vs. Year with separate trendlines
     for the pre- and post-treatment periods.
 
@@ -101,6 +101,12 @@ def rda_linearreg():
     None. Creates Regression Plot
     """
     df = pd.read_csv('../final_adb.csv')
+
+    #Drop non-climate related
+    df = df[df['Climate-Related'] == 'Yes']
+
+    #Rename column
+    df = df.rename(columns={'Commitment Amount': 'Commitment_Amount'})
     
     cutoff_year = 2017
     df['Post_2017'] = df['Year'] >= 2017
@@ -171,7 +177,7 @@ def rda_linearreg():
 
 def hist_data():
     """
-    Reads in World Bank project data from a CSV file, converts the commitment amounts to 
+    Reads in ADB project data from a CSV file, converts the commitment amounts to 
     log millions of dollars, and creates a histogram of the distribution of 
     commitment amounts using the Plotly library.
 
@@ -180,6 +186,13 @@ def hist_data():
     """
 
     df = pd.read_csv('../final_adb.csv')
+
+    
+    #Drop non-climate related
+    df = df[df['Climate-Related'] == 'Yes']
+
+    #Rename column
+    df = df.rename(columns={'Commitment Amount': 'Commitment_Amount'})
 
     # Convert Commitment_Amount to millions of dollars
     df['Commitment_Amount'] = df['Commitment_Amount'] / 1000000
