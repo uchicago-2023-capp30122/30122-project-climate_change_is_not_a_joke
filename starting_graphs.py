@@ -1,5 +1,5 @@
-from final_project.bob_stats import rda_logreg, rda_linearreg, hist_data
-from final_project.load_data import hl_df, ll_df
+from .bob_stats import rda_logreg, rda_linearreg, hist_data
+from .load_data import hl_df, ll_df
 import plotly.express as px
 
 # Build Figures
