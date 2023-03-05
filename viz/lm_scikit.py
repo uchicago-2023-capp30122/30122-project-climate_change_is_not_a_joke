@@ -189,8 +189,3 @@ def hist_data():
 rda_logreg()
 rda_linearreg()
 hist_data()
-
-
-
-
-

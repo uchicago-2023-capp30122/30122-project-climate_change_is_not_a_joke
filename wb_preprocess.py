@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import plotly.express as px
 
 
 def load_data(input_file):
@@ -105,3 +106,56 @@ def clean_gdpcapita_data():
     df = df.rename(columns={"2020": "2020 GDP Per Capita"})
     df.to_csv(os.path.join('data', 'gdp_cleaned.csv'), index=False)
     print("Data cleaning complete")
+
+def calc_avg_commitment_amount_by_year(df):
+    # create a new dataframe to store the results
+    result_df = pd.DataFrame(columns=['Year', 'Average Commitment Amount'])
+    
+    # loop through each unique year in the 'Year' column of the input dataframe
+    for year in df['Year'].unique():
+        # filter the dataframe by the current year
+        year_df = df[df['Year'] == year]
+        
+        # calculate the average commitment amount for the current year
+        avg_commitment_amount = year_df['Commitment Amount'].mean()
+        
+        # add the year and average commitment amount to the result dataframe
+        result_df = result_df.append({'Year': year, 'Average Commitment Amount': avg_commitment_amount}, ignore_index=True)
+    
+    # return the result dataframe
+    return result_df
+
+def calc_avg_commitment_amount_by_year(df):
+    # create a new dataframe to store the results
+    result_df = pd.DataFrame(columns=['Year', 'Average Commitment Amount'])
+    
+    # loop through each unique year in the 'Year' column of the input dataframe
+    for year in df['Year'].unique():
+        # filter the dataframe by the current year
+        year_df = df[df['Year'] == year]
+        
+        # calculate the average commitment amount for the current year
+        avg_commitment_amount = year_df['Commitment Amount'].mean() / 1000000
+        
+        # add the year and average commitment amount to the result dataframe
+        result_df = result_df.append({'Year': year, 'Average Commitment Amount': avg_commitment_amount}, ignore_index=True)
+    
+    # return the result dataframe
+    return result_df
+
+
+def avg_commitment_plot():
+    """
+    """
+    df = clean_wb_data()
+    avg_commitment_amount_by_year = calc_avg_commitment_amount_by_year(df)
+    # Print the resulting DataFrame
+    print(avg_commitment_amount_by_year.to_string(index=False, formatters={'Average Commitment Amount': '{:,.2f}'.format}))
+    # Create a bar plot of the average commitment amount by year using plotly
+    fig = px.bar(avg_commitment_amount_by_year, x='Year', y='Average Commitment Amount',
+                labels={'Year': 'Year', 'Average Commitment Amount': 'Average Commitment Amount (Millions of Dollars)'})
+
+    # Show the plot
+    fig.show()
+
+avg_commitment_plot()
