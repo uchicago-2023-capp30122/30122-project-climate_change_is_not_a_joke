@@ -1,1 +1,6 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=9914842&assignment_repo_type=AssignmentRepo)
+# World Bank Feature Branch
+
+This branch contains changes for a world bank data I am working on. The changes include:
+Preprosessing of Data
+Statistical and Descriptive Analysis
+Plots and Regressions
