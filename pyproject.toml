@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "30122-project-climate-change-is-not-a-joke"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "30122_project_climate_change_is_not_a_joke"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+bs4 = "^0.0.1"
+requests = "^2.28.2"
+urllib3 = "^1.26.14"
+spacy = "^3.5.0"
+pandas = "^1.5.3"
+numpy = "^1.24.2"
+dash = "^2.8.1"
+dash-bootstrap-components = "^1.4.0"
+openpyxl = "^3.1.1"
+rdd = "^0.0.3"
+scikit-learn = "^1.2.1"
+matplotlib = "^3.7.1"
+statsmodels = "^0.13.5"
+plotly-express = "^0.4.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
