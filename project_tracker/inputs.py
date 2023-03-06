@@ -2,7 +2,7 @@
 Dictionary and List Inputs for the Dashboard
 """
 
-from project_tracker.load_data import ll_df, hl_df
+from project_tracker.load_and_clean.load_data import ll_df, hl_df
 
 # Style Dictionaries
 

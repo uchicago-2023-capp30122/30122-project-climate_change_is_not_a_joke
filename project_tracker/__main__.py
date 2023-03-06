@@ -15,8 +15,8 @@ from project_tracker.inputs import header_style, small_dropdown_style, \
                                 map_dd_style, hl_reg_style, hl_reg_layout_style, \
                                 country_options, hl_data_table_options, hl_data_table_text, \
                                 hl_data_table_cell,  bar_filter, bar_options, ll_data_table_cell
-from project_tracker.load_data import hl_df, ll_df, wb_df_2
-from project_tracker.starting_graphs import logreg_fig, linreg_fig, hist_fig, \
+from project_tracker.load_and_clean.load_data import hl_df, ll_df, wb_df_2
+from project_tracker.graphs.starting_graphs import logreg_fig, linreg_fig, hist_fig, \
                                           map_fig, scatter_fig, bar_fig
 
 # App Layout
