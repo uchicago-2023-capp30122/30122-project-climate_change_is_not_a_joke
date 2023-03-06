@@ -11,7 +11,7 @@ The 2015 Paris Agreement (ratified on Nov 2016) on climate change was a historic
 The dashboad has six parts:
 </p>
 
-<p><b>1. Interactive Map</b> -shows the summarized information per country. Details will be shown when user hovers through the map on the right. Filters on the left side allow user to view different cuts metrics based on data source and the time interval (pre/post Paris Agreement) </p>
+<p><b>1. Interactive Map</b> -shows the summarized information per country. Details will be shown when user hovers through the map on the right. Filters on the left side allow user to view different metrics based on data source and the time interval (pre/post Paris Agreement) </p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/1.Map.png)
 
