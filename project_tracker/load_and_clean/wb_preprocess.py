@@ -36,7 +36,7 @@ def clean_wb_data():
     Returns:
     pandas.DataFrame
     """
-    data_path = os.path.join('data', 'raw/uncleaned consolidated post and pre data - wb_updated.xlsx')
+    data_path = os.path.join('data/raw', 'raw/uncleaned consolidated post and pre data - wb_updated.xlsx')
     df = load_data(data_path)
 
     #Preprocessing data to remove unnecessary fields
@@ -46,7 +46,7 @@ def clean_wb_data():
     df = df[df['Year'] != 2010]
 
     # Save the modified data to a CSV file
-    df.to_csv(os.path.join('data', 'wb_data.csv'), index=False)
+    df.to_csv(os.path.join('data/raw', 'wb_data.csv'), index=False)
 
     # Return the modified data as a DataFrame
     return df
@@ -60,7 +60,7 @@ def clean_ndgain_data():
     Returns:
         None. The function writes the cleaned DataFrame to the output CSV file.
     """
-    data_path = os.path.join('data', 'gain.csv')
+    data_path = os.path.join('data/raw', 'gain.csv')
     df = load_data(data_path)
     # List of countries to keep
     countries_to_keep = ["Afghanistan", "Armenia", "Bangladesh", "Bhutan", "Cambodia", "Georgia", 

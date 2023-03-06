@@ -195,5 +195,5 @@ def crawl():
             found = True
             break
 
-    with open("adb_projects.json", "w") as f:
+    with open("project_tracker/data/raw/adb_projects.json", "w") as f:
         print(json.dump(projects, f, indent=1))

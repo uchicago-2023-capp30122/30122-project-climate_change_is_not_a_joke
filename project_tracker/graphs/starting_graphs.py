@@ -4,6 +4,7 @@ from project_tracker.load_and_clean.load_data import hl_df, ll_df
 import plotly.express as px
 
 # Build Figures
+
 logreg_fig = rda_logreg()
 linreg_fig = rda_linearreg()
 hist_fig = hist_data()
