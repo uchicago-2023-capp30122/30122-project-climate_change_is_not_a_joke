@@ -46,15 +46,19 @@ The dashboad has six parts:
 
 <p>This diagram showcases the high-level architecture of the project software. The data is loaded from two different portals, then cleaned and aggregated, and added to a dashboard module and backend database. The dashboard produces the visualization shown on the right.</p>  
 
+![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/Documentation/Software%20Architecture.JPG)
 
 <p><b>Application Architecture</b></p>
 
 <p>This diagram showcases the software architecture for the web application. This application features three different pathways (project_tracker, graphs, and load_and_clean) that all connect to the __main__.py module, which runs the dashboard application.</p>  
 
+![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/Documentation/Application%20Structure.JPG)
+
 <p><b>Project Folder Structure</b></p>
 
 <p>This figure showcases the folder structure, including all modules and file data, for the final project</p> 
 
+![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/Documentation/Folder%20Structure.jpg)
 
 ### <b> Instructions to execute project codes </b>
 <p>NOTE: All codes to be run from within the project root directory</p>
