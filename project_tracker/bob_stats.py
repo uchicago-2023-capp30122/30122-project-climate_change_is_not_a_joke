@@ -13,7 +13,7 @@ def rda_logreg():
     Returns
     None. Creates Regression Plot
     """
-    df = pd.read_csv('final_project/ll_wb.csv')
+    df = pd.read_csv('project_tracker/data/ll_wb.csv')
     
     # Drop rows with negative or zero 'Commitment_Amount'
     df = df[df['Commitment Amount'] > 0]
@@ -90,7 +90,7 @@ def rda_linearreg():
     Returns
     None. Creates Regression Plot
     """
-    df = pd.read_csv('final_project/ll_wb.csv')
+    df = pd.read_csv('project_tracker/data/ll_wb.csv')
     
     cutoff_year = 2017
     df['Post_2017'] = df['Year'] >= 2017
@@ -167,7 +167,7 @@ def hist_data():
     None. Creates histogram
     """
 
-    df = pd.read_csv('final_project/ll_wb.csv')
+    df = pd.read_csv('project_tracker/data/ll_wb.csv')
 
     # Convert Commitment_Amount to millions of dollars
     df['Commitment Amount'] = df['Commitment Amount'] / 1000000

@@ -5,12 +5,11 @@ Load cleaned data in Pandas dataframes
 import pandas as pd
 
 # Construct Low Level DataFrames
-ll_adb = open("final_project/ll_adb.csv")
-ll_wb = open("final_project/ll_wb.csv")
-adb_df = pd.read_csv(ll_adb)
-wb_df = pd.read_csv(ll_wb)
 
-ll_wb_2 = open("final_project/ll_wb.csv")
+adb_df = pd.read_csv("project_tracker/data/ll_adb.csv")
+wb_df = pd.read_csv("project_tracker/data/ll_wb.csv")
+
+ll_wb_2 = open("project_tracker/data/ll_wb.csv")
 wb_df_2 = pd.read_csv(ll_wb_2)
 
 adb_df = adb_df.loc[:, ['Country', 'Region', 'Project Name', 'Project Description', 
@@ -31,5 +30,5 @@ ll_df["Pre/Post Paris Agreement"] = ll_df["Pre/Post Paris Agreement"].map({0: "P
                                                                      1: "Post"})
 
 #Construct High Level DataFrame
-hl_f = open("final_project/hl_data.csv")
+hl_f = open("project_tracker/data/hl_data.csv")
 hl_df = pd.read_csv(hl_f)
