@@ -11,7 +11,7 @@ The 2015 Paris Agreement (ratified on Nov 2016) on climate change was a historic
 The dashboad has six parts:
 </p>
 
-<p><b>1. Interactive Map</b> -shows the summarized information per country. Details will be shown when user hovers through the map on the right. Filters on the left side allow user to view different metrics based on data source and the time interval (pre/post Paris Agreement) </p>
+<p><b>1. Interactive Map</b> -shows the summarized information per country. Details will be shown when user hovers through the map on the right. Filters on the left side allow user to view different metrics (count, funding amount, climate funding proportion) based on funding source source and the time interval (pre/post Paris Agreement) </p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/1.Map.png)
 
@@ -32,12 +32,12 @@ The dashboad has six parts:
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/4.GDP_Vulnerability%20Datatable.png)
 
 
-<p><b>5. Project-level graphs</b> -shows the overall project details of the  selected in Country Level filter. This has breakdown of count between pre and post Paris agreement, and a plot showing the count and funding amount over time</p>
+<p><b>5. Project-level graphs</b> -shows the overall project details of the  selected in Country Level filter. This has breakdown of project status between pre and post Paris agreement, and a plot showing the count and funding amount over time</p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/5.project_plots.png)
 
 
-<p><b>6. Data Table</b> -a table showing the individual project details of the selected country</p>
+<p><b>6. Data Table</b> -shows the individual project details of the selected country, user can also be directed to the project page through the project url on the last column</p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/6.project_datatable.png)
 
