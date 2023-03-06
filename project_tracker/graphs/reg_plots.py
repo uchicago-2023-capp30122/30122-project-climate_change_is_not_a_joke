@@ -65,19 +65,23 @@ def rda_logreg():
     annotations.append(dict(x=1.0, y=0.9,
                             xref='paper', yref='paper',
                             text='Treatment effect estimate: {:.4f}'.format(treatment_effect),
-                            showarrow=False))
+                            showarrow=False,
+                            bgcolor="white"))
 
     annotations.append(dict(x=1.0, y=0.85,
                             xref='paper', yref='paper',
                             text='t-statistic: {:.4f}'.format(t_stat),
-                            showarrow=False))
+                            showarrow=False,
+                            bgcolor="white"))
+                            
 
     annotations.append(dict(x=1.0, y=0.80,
                             xref='paper', yref='paper',
                             text='p-value: {:.4f}'.format(p_value),
-                            showarrow=False))
+                            showarrow=False,
+                            bgcolor="white"))
     fig.update_layout(annotations=annotations)
-
+    return fig
 
 def rda_linearreg():
     """
@@ -136,19 +140,23 @@ def rda_linearreg():
     annotations.append(dict(x=1.0, y=0.9,
                             xref='paper', yref='paper',
                             text='Treatment effect estimate: {:.4f}'.format(treatment_effect),
-                            showarrow=False))
+                            showarrow=False,
+                            bgcolor="white"))
 
     annotations.append(dict(x=1.0, y=0.85,
                             xref='paper', yref='paper',
                             text='t-statistic: {:.4f}'.format(t_stat),
-                            showarrow=False))
+                            showarrow=False,
+                            bgcolor="white"))
 
     annotations.append(dict(x=1.0, y=0.80,
                             xref='paper', yref='paper',
                             text='p-value: {:.4f}'.format(p_value),
-                            showarrow=False))
+                            showarrow=False,
+                            bgcolor="white"))
 
     fig.update_layout(annotations=annotations)
+    return fig
 
 
 def hist_data():
@@ -167,7 +175,8 @@ def hist_data():
     df['Commitment Amount'] = df['Commitment Amount'] / 1000000
     df['Commitment Amount'] = np.log10(df['Commitment Amount'])
 
-    fig = px.histogram(df, x='Commitment Amount', nbins=20, histnorm='probability')
-    fig.update_yaxes(title='Percentage', tickformat='.1%', range=[0, 1])
-
+    fig = px.histogram(df, x='Commitment Amount', nbins=20, histnorm='probability',
+                       title='Commitment Amount Distribution (Overall)')
+    fig.update_yaxes(title='Percentage', tickformat='.05%', range=[0, .35])
     fig.update_xaxes(title='Commitment Amount (Millions of Dollars)')
+    return fig

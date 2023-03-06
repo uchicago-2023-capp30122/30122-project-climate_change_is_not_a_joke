@@ -153,4 +153,7 @@ def avg_commitment_plot():
     avg_commitment_amount_by_year = calc_avg_commitment_amount_by_year(df)
     # Create a bar plot of the average commitment amount by year using plotly
     fig = px.bar(avg_commitment_amount_by_year, x='Year', y='Average Commitment Amount',
-                labels={'Year': 'Year', 'Average Commitment Amount': 'Average Commitment Amount (Millions of Dollars)'})
+                labels={'Year': 'Year', 'Average Commitment Amount': 'Average Commitment Amount (Millions of Dollars)'},
+                title='Commitment Amount Distribution (Over Time)')
+
+    return fig

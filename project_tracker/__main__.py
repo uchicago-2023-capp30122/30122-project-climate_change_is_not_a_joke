@@ -80,14 +80,14 @@ app.layout = dbc.Container([
     dbc.Row(html.Br()),
     html.Br(),
 
-    dbc.Row(html.H3("Static Histogram: Examining the Distribution of Climate Change \
+    dbc.Row(html.H3("Static Histograms: Examining the Distribution of Climate Change \
                      Project Funding"), 
                     style = header_style,
                     justify = "center"),
     
     html.Br(),
 
-     html.Div(children = 
+    html.Div(children = 
              [html.Div(dcc.Graph(id = "hist_fig",
                                   figure = hist_fig,
                                   style = plot_style),
@@ -294,7 +294,7 @@ def update_map(primary_filter, secondary_filter, dd):
               [Input("country_dd", "value"),
                Input("second_country_dd", "value")])
 
-def update_table(country_dd, secondary_country_dd):
+def update_hl_table(country_dd, secondary_country_dd):
     
     if country_dd is None:
         final_filter = hl_df[hl_df["Funding Source"] == "Total"]
@@ -355,10 +355,10 @@ def update_bar(country, x_filter, color_filter):
 @app.callback(Output("ll_data_table", "data"),
               Input("country_dd", "value"))
 
-def update_table(country):
+def update_ll_table(country):
 
     data_table_filter = ll_df[ll_df["Country"] == country]
     return data_table_filter.to_dict("records")
 
 if __name__ == "__main__":
-    app.run_server(debug = True, host = "0.0.0.0", port = 8071)
+    app.run_server(debug = True, host = "0.0.0.0", port = 3004)

@@ -38,7 +38,7 @@ hl_data_table_text = {"width": "100px", "minWidth": "100px",
                       "maxWidth": "100px", "textOverflow": "ellipsis"}
 hl_data_table_cell = {"textAlign": "center", "font-family": "Helvetica"}
 
-ll_data_table_cell = {"text-align": "left", "width": "{}%".format(len(ll_df.columns)),
+ll_data_table_cell = {"text-align": "left", "width": 4,
                       "textOverflow": "ellipsis", "overflow": "hidden"}
 
 # Column Lists
