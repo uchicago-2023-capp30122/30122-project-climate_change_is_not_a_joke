@@ -8,15 +8,15 @@ from dash import html, dcc, Input, Output, dash_table
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
-from .dashboard import app
-from .inputs import header_style, small_dropdown_style, \
+from project_tracker.dashboard import app
+from project_tracker.inputs import header_style, small_dropdown_style, \
                                 big_dropdown_style, plot_style, bottom_table_cols, \
                                 paris_filter, source_filter, map_dd_options, \
                                 map_dd_style, hl_reg_style, hl_reg_layout_style, \
                                 country_options, hl_data_table_options, hl_data_table_text, \
                                 hl_data_table_cell,  bar_filter, bar_options, ll_data_table_cell
-from .load_data import hl_df, ll_df, wb_df_2
-from .starting_graphs import logreg_fig, linreg_fig, hist_fig, \
+from project_tracker.load_and_clean.load_data import hl_df, ll_df, wb_df_2
+from project_tracker.graphs.starting_graphs import logreg_fig, linreg_fig, hist_fig, \
                                           map_fig, scatter_fig, bar_fig
 
 # App Layout
