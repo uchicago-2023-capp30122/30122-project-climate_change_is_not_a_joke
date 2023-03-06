@@ -17,7 +17,7 @@ from project_tracker.inputs import header_style, small_dropdown_style, \
                                 hl_data_table_cell,  bar_filter, bar_options, ll_data_table_cell
 from project_tracker.load_and_clean.load_data import hl_df, ll_df
 from project_tracker.graphs.starting_graphs import logreg_fig, linreg_fig, hist_fig, \
-                                          map_fig, scatter_fig, bar_fig
+                                          map_fig, scatter_fig, bar_fig, avg_commit_fig
 
 # App Layout
 app.layout = dbc.Container([
@@ -84,12 +84,20 @@ app.layout = dbc.Container([
                      Project Funding"), 
                     style = header_style,
                     justify = "center"),
-    html.Br(),
     
-    dbc.Row(dcc.Graph(id = "hist_fig",
-                      figure = hist_fig,
-                      style = plot_style),
-                      justify = "center"),
+    html.Br(),
+
+     html.Div(children = 
+             [html.Div(dcc.Graph(id = "hist_fig",
+                                  figure = hist_fig,
+                                  style = plot_style),
+                                  style = hl_reg_style),
+            
+              html.Div(dcc.Graph(id = "hist_fig2",
+                                 figure = avg_commit_fig,
+                                 style = plot_style), 
+                                 style = hl_reg_style)],
+                                 style = hl_reg_layout_style),  
 
     dbc.Row(html.Br()),
     html.Br(),

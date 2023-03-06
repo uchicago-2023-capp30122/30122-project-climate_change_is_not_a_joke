@@ -36,7 +36,7 @@ def clean_wb_data():
     Returns:
     pandas.DataFrame
     """
-    data_path = os.path.join('data', 'uncleaned consolidated post and pre data - wb_updated.xlsx')
+    data_path = os.path.join('data', 'raw/uncleaned consolidated post and pre data - wb_updated.xlsx')
     df = load_data(data_path)
 
     #Preprocessing data to remove unnecessary fields
@@ -149,15 +149,8 @@ def avg_commitment_plot():
     Returns:
     None. Creates a bar plot
     """
-    df = clean_wb_data()
+    df = pd.read_csv("project_tracker/data/ll_wb.csv")
     avg_commitment_amount_by_year = calc_avg_commitment_amount_by_year(df)
-    # Print the resulting DataFrame
-    print(avg_commitment_amount_by_year.to_string(index=False, formatters={'Average Commitment Amount': '{:,.2f}'.format}))
     # Create a bar plot of the average commitment amount by year using plotly
     fig = px.bar(avg_commitment_amount_by_year, x='Year', y='Average Commitment Amount',
                 labels={'Year': 'Year', 'Average Commitment Amount': 'Average Commitment Amount (Millions of Dollars)'})
-
-    # Show the plot
-    fig.show()
-
-avg_commitment_plot()
