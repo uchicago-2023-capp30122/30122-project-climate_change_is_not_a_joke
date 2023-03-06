@@ -1,6 +1,5 @@
 '''
 Dashboard Constructor
-
 Climate Change Investment Tracker
 '''
 
@@ -19,7 +18,9 @@ from project_tracker.load_and_clean.load_data import hl_df, ll_df
 from project_tracker.graphs.starting_graphs import logreg_fig, linreg_fig, hist_fig, \
                                           map_fig, scatter_fig, bar_fig, avg_commit_fig
 
-# App Layout
+
+## App Layout
+
 app.layout = dbc.Container([
     html.Br(),
     dbc.Row(html.H1("Climate Change Investment Tracker"), 
@@ -98,11 +99,11 @@ app.layout = dbc.Container([
                                  style = plot_style), 
                                  style = hl_reg_style)],
                                  style = hl_reg_layout_style),  
-
+    dbc.Row(html.Br()),
     dbc.Row(html.Br()),
     html.Br(),
     
-    dbc.Row(html.H3("Climate Change Project Deep Dive by Country"), 
+    dbc.Row(html.H2("Climate Change Project Deep Dive by Country"), 
                     style = header_style,
                     justify = "center"),
     html.Br(),
@@ -139,7 +140,9 @@ app.layout = dbc.Container([
                                  page_current = 0,
                                  page_size = 5,
                                  style_data = hl_data_table_text,
-                                 style_cell = hl_data_table_cell)),
+                                 style_cell = ll_data_table_cell,
+                                 sort_action = "native",
+                                 sort_mode = "multi")),
     html.Br(),
 
     dbc.Row("The ND-GAIN Country Index summarizes a country's vulnerability to \
@@ -154,6 +157,11 @@ app.layout = dbc.Container([
 
     html.Br(),
     html.Br(),
+
+    dbc.Row(html.H3("Graphs on Climate Change Projects for Selected Country"), 
+                    style = header_style,
+                    justify = "center"),
+
     html.Div(html.Br()),
 
     html.Div(html.H5("Category Filter: Project Breakdown"), 
@@ -200,8 +208,10 @@ app.layout = dbc.Container([
                                  columns = bottom_table_cols,
                                  page_current = 0,
                                  page_size = 10,
-                                 css = [{"selector": "table", "rule": "able-layout: fixed"}],
-                                 style_cell = ll_data_table_cell)),
+                                 style_data = hl_data_table_text,
+                                 style_cell = ll_data_table_cell,
+                                 sort_action = "native",
+                                 sort_mode = "multi")),
     html.Br(),
     html.Br(),
 
@@ -211,19 +221,28 @@ app.layout = dbc.Container([
 
 fluid = True, style = {"backgroundColor": "#D2E5D0"})
 
-# Update Figures
+
+## Update Figures
+
 @app.callback(Output("map", "figure"),
               [Input("primary_map_filter", "value"),
                Input("secondary_map_filter", "value"),
                Input("map_dd", "value")])
 
 def update_map(primary_filter, secondary_filter, dd):
+    """
+    This function updates the map based on the user selecting three possible optional filters.
 
+    Inputs: dropdown filter names - optional
+    Returns: an updated map for the dashboard
+    """
+
+    # Filter data based on user-inputted dropdowns
     if primary_filter == "(Pre-Paris Agreement)":
         new_df = hl_df.filter(regex = "Pre|Source|Country")
         if dd is None:
             color_filter = "Project Count (Pre-Paris Agreement)"
-        else: 
+        if dd is not None:
             color_filter = dd + " " + primary_filter
         if secondary_filter == "ADB":
             new_df = new_df[new_df["Funding Source"] == secondary_filter]
@@ -236,7 +255,7 @@ def update_map(primary_filter, secondary_filter, dd):
         new_df = hl_df.filter(regex = "Post|Source|Country")
         if dd is None:
             color_filter = "Project Count (Post-Paris Agreement)"
-        else: 
+        if dd is not None:
             color_filter = dd + " " + primary_filter
         if secondary_filter == "ADB":
             new_df = new_df[new_df["Funding Source"] == secondary_filter]
@@ -249,7 +268,7 @@ def update_map(primary_filter, secondary_filter, dd):
         new_df = hl_df.filter(regex = "(Total)|Source|Country")
         if dd is None:
             color_filter = "Project Count (Total)"
-        else: 
+        if dd is not None: 
             color_filter = dd + " " + "(Total)"
         if secondary_filter == "ADB":
             new_df = new_df[new_df['Funding Source'] == secondary_filter]
@@ -273,6 +292,7 @@ def update_map(primary_filter, secondary_filter, dd):
     elif dd == "Climate Change Project Funding Proportion":
         title_label = "Map of Proportional Funding of Climate Change Projects from November 2010 to Now"
 
+    # Construct the updated map
     map_fig = px.choropleth(new_df,
                             locations = "Country", 
                             locationmode = "country names",
@@ -290,11 +310,18 @@ def update_map(primary_filter, secondary_filter, dd):
 
     return map_fig
 
+
 @app.callback(Output("hl_data_table", "data"),
               [Input("country_dd", "value"),
                Input("second_country_dd", "value")])
 
 def update_hl_table(country_dd, secondary_country_dd):
+    """
+    This function updates the high-level datatable based on the user selecting two "country" filters.
+    
+    Inputs: dropdown filter (country) names - optional
+    Returns: an updated datatable for the dashboard
+    """
     
     if country_dd is None:
         final_filter = hl_df[hl_df["Funding Source"] == "Total"]
@@ -309,21 +336,30 @@ def update_hl_table(country_dd, secondary_country_dd):
         final_filter = data_table_filter[data_table_filter["Funding Source"] == "Total"]
         return final_filter.to_dict("records")
 
+
 @app.callback(Output("ll_scatter", "figure"),
               Input("country_dd", "value"))
 
 def update_scatter(country):
+    """
+    This function updates the low-level scatterplot based on the user-selected country.
+    
+    Input: dropdown filter (country) name - required
+    Returns: an updated scatterplot for the dashboard
+    """
 
+    # Filter the data
     scatter_df = ll_df[ll_df["Country"] == country]
     scatter_df["Project Count by Year"] = scatter_df.groupby(["Year"])["Project Name"].transform("count")
     scatter_df["Project Commitment Amount by Year"] = scatter_df.groupby(["Year"])["Commitment Amount"].transform(sum)
 
+    # Construct the updated scatterplot
     fig = px.scatter(scatter_df, 
                      x = "Year",
                      y = "Project Count by Year",
                      size = "Project Commitment Amount by Year",
-                     title = f"Project Over Time in {country}",
-                     labels = {"Project Count": "Project Count"},
+                     title = f"Project Count Over Time in {country}",
+                     labels = {"Commitment Amount": "Commitment Amount"},
                      trendline = "ols")
     
     fig.add_vline(x = 2016, 
@@ -334,31 +370,48 @@ def update_scatter(country):
     
     return fig
 
+
 @app.callback(Output("bar", "figure"),
               Input("country_dd", "value"),
               Input("bar_x_filter", "value"),
               Input("bar_color_filter", "value"))
 
 def update_bar(country, x_filter, color_filter):
+    """
+    This function updates the bar plot based on the user selecting three possible filters.
+    
+    Inputs: dropdown filter names (country and x_filter - required, color filter - optional)
+    Returns: an updated bar plot for the dashboard
+    """
 
+    # Filter the data
     bar_data_filter = ll_df[ll_df["Country"] == country]
 
+    # Construct the updated bar plot
     fig = px.bar(bar_data_filter, 
                  x = x_filter, 
                  y = "Commitment Amount",
                  color = color_filter,
                  title = f"Commitment Amount by {x_filter} in {country}",
-                 labels = {"Commitment Amount": "Commitment Amount"})
+                 hover_name = "Project Name")
     
     return fig
+
 
 @app.callback(Output("ll_data_table", "data"),
               Input("country_dd", "value"))
 
 def update_ll_table(country):
+    """
+    This function updates the project-level datatable based on the user-selected country.
+    
+    Inputs: dropdown filter (country) name - required
+    Returns: an updated datatable for the dashboard
+    """
 
     data_table_filter = ll_df[ll_df["Country"] == country]
     return data_table_filter.to_dict("records")
+
 
 if __name__ == "__main__":
     app.run_server(debug = True, host = "0.0.0.0", port = 3004)
