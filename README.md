@@ -4,7 +4,7 @@
 
 
 <p>
-The 2015 Paris Agreement (ratified on Nov 2016) on climate change was a historic step forward in the global effort to combat the impacts of climate change. Multilateral development banks (MDBs) have an important role to play in supporting the implementation of the Paris Agreement, specifically in the Asia Pacific region, which is particularly vulnerable to the impacts of climate change. MDBs have a critical role to play in providing financial and technical assistance to developing countries to support the implementation of the Paris Agreement. The goal of this project is to conduct a comparative analysis of the funding patterns of major MDBs in the Asia Pacific region after the Paris Agreement.
+The 2015 Paris Agreement (ratified on Nov 2016) on climate change was a historic step forward in the global effort to combat the impacts of climate change. Multilateral development banks (MDBs) have an important role to play in supporting the implementation of the Paris Agreement, specifically in the Asia Pacific region, which is particularly vulnerable to the impacts of climate change. MDBs have a critical role to play in providing financial and technical assistance to developing countries to support the implementation of the Paris Agreement. The goal of this project is to conduct a comparative analysis of the funding patterns of major MDBs in the Asia Pacific region after the Paris Agreement, specifically the World Bank and Asian Development Bank.
 </p>
 
 <p>
