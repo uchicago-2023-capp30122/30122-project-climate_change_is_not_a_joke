@@ -16,7 +16,7 @@ The dashboad has six parts:
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/1.Map.png)
 
 
-<p><b>2. Regression Plots</b> -examine the effects of the Paris Agrement on Climate related project investments. Detailed Statisical analysis results can be found in the StatResults file</p>
+<p><b>2. Regression Plots</b> -examine the effects of the Paris Agrement on Climate related project investments. Detailed Statisical analysis results can be found in the <a href = "https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/Documentation/Statistical%20Model%20and%20Comparative%20Data%20Analysis.pdf">Statistical Model and Comparative Data Analysis file</a></p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/2.Regression.png)
 
@@ -74,6 +74,12 @@ Viewing WebApp:
 1. Run `python3 -m project_tracker` (takes ~30 seconds)
 2. Follow the generated URL link (eg: http://0.0.0.0:3004/) by clicking <b>Open in Browser</b> or by copying and pasting in your browser (On Mac, use <b>⌘</b> and click <b>Follow link</b> on the link generated)
 3. The website may take a few seconds to load all figures
+  
+(Optional) Scraping Data from the Asian Development Bank Data Library:
+
+To view sample data web-scrape from the ADB Data Library:
+1. Run `python3 -m project_tracker.load_and_clean.draft_crawler`
+2. Sample dataset created is stored in <b>project_tracker/data/raw/adb_projects.json</b>
 
 </p>
 
