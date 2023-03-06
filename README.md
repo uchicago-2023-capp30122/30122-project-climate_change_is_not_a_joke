@@ -52,12 +52,12 @@ The dashboad has six parts:
 <p> Setting up Virtual Environment and installing required packages:
 
 1. Clone this repo
-2. From within project root directory <b>30122-project-climate_change_is_not_a_joke</b> run <b>poetry install</b> (takes ~2 minutes for all packages to install)
-3. Activate the virtual environment through <b>poetry shell</b>
+2. From within project root directory <b>30122-project-climate_change_is_not_a_joke</b> run `poetry install` (takes ~2 minutes for all packages to install)
+3. Activate the virtual environment through `poetry shell`
 
 Viewing WebApp:
 
-1. Run <b>python3 -m project_tracker</b> (takes ~30 seconds)
+1. Run `python3 -m project_tracker` (takes ~30 seconds)
 2. Follow the generated URL link (eg: http://0.0.0.0:3004/) by clicking <b>Open in Browser</b> or by copying and pasting in your browser (On Mac, use <b>⌘</b> and click <b>Follow link</b> on the link generated)
 3. The website may take a few seconds to load all figures
 
