@@ -16,7 +16,6 @@ The dashboad has six parts:
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/1.Map.png)
 
 
-
 <p><b>2. Regression Plots</b> -examine the effects of the Paris Agrement on Climate related project investments. Detailed Statisical analysis results can be found in the StatResults file</p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/2.Regression.png)
@@ -43,7 +42,18 @@ The dashboad has six parts:
 
 ### <b> Documentation </b>
 
-<p>insert documentation texts here</p>
+<p><b>Software Architecture</b></p>
+
+<p>This diagram showcases the high-level architecture of the project software. The data is loaded from two different portals, then cleaned and aggregated, and added to a dashboard module and backend database. The dashboard produces the visualization shown on the right.</p>  
+
+
+<p><b>Application Architecture</b></p>
+
+<p>This diagram showcases the software architecture for the web application. This application features three different pathways (project_tracker, graphs, and load_and_clean) that all connect to the __main__.py module, which runs the dashboard application.</p>  
+
+<p><b>Project Folder Structure</b></p>
+
+<p>This figure showcases the folder structure, including all modules and file data, for the final project</p> 
 
 
 ### <b> Instructions to execute project codes </b>
