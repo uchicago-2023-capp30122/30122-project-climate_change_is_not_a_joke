@@ -30,23 +30,39 @@ map_dd_style = {"text-align": "center",
 
 hl_reg_style = {'display': 'inline-block'}
 
-bar_filter = {"width": "40%", "display": "inline-block"}
+bar_filter = {"width": "40%", 
+              "display": "inline-block", 
+              "color": "#65463E", 
+              "font-family": "Helvetica"}
 
-hl_reg_layout_style = {"width": "100%", "display": "inline-block"}
+hl_reg_layout_style = {"width": "100%", 
+                       "display": "inline-block"}
 
-hl_data_table_text = {"width": "150px", "minWidth": "150px", 
-                      "maxWidth": "150px", "textOverflow": "ellipsis"}
-hl_data_table_cell = {"textAlign": "center", "font-family": "Helvetica"}
+hl_data_table_text = {"width": "100px", 
+                      "minWidth": "100px", 
+                      "maxWidth": "100px", 
+                      "textOverflow": "ellipsis", 
+                      "font-family": "Helvetica"}
 
-ll_data_table_cell = {"text-align": "left", "width": "{}%".format(len(ll_df.columns)),
-                      "textOverflow": "ellipsis", "overflow": "hidden"}
+hl_data_table_cell = {"textAlign": "center", 
+                      "font-family": "Helvetica"}
+
+ll_data_table_cell = {"text-align": "left", 
+                      "width": 4,
+                      "textOverflow": "ellipsis",
+                      "font-family": "Helvetica"}
 
 # Column Lists
 
-compare_col = ['Country','2020 GDP Per Capita', '2020 Gain Index']
+compare_col = ['Country',
+               '2020 GDP Per Capita', 
+               '2020 Gain Index', 
+               'Project Funding (in Millions)',
+               'Climate Change Project Funding (in Millions)']
 
 bottom_table_cols = [{"name": "Project Name", "id": "Project Name"},
                      {"name": "Status", "id": "Status"},
+                     {"name": "Commitment Amount", "id": "Commitment Amount"},
                      {"name": "Effective Date", "id": "Effective Date"},
                      {"name": "Project URL", "id": "Project URL"}]
 

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def rdd_example():
     """
     """
-    data = pd.read_csv('../data/wb_data.csv')
+    data = pd.read_csv('project_tracker/data/raw/wb_data.csv')
     cutoff_year = 2017
     data['treatment'] = np.where(data['Year'] >= cutoff_year, 1, 0)
     bandwidth_opt = rdd.optimal_bandwidth(data['Commitment_Amount'], data['Year'], cut=cutoff_year)

@@ -1,11 +1,14 @@
-from project_tracker.bob_stats import rda_logreg, rda_linearreg, hist_data
+from project_tracker.graphs.reg_plots import rda_logreg, rda_linearreg, hist_data
+from project_tracker.load_and_clean.wb_preprocess import avg_commitment_plot
 from project_tracker.load_and_clean.load_data import hl_df, ll_df
 import plotly.express as px
 
 # Build Figures
+
 logreg_fig = rda_logreg()
 linreg_fig = rda_linearreg()
 hist_fig = hist_data()
+avg_commit_fig = avg_commitment_plot()
 
 map_fig = px.choropleth(hl_df,
                         locations = "Country", 

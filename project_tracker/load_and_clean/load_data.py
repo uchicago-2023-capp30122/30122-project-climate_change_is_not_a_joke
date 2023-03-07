@@ -6,29 +6,18 @@ import pandas as pd
 
 # Construct Low Level DataFrames
 
-adb_df = pd.read_csv("project_tracker/data/ll_adb.csv")
+adb_df = pd.read_csv("project_tracker/data/final_adb.csv")
 wb_df = pd.read_csv("project_tracker/data/ll_wb.csv")
-
-ll_wb_2 = open("project_tracker/data/ll_wb.csv")
-wb_df_2 = pd.read_csv(ll_wb_2)
-
-adb_df = adb_df.loc[:, ['Country', 'Region', 'Project Name', 'Project Description', 
-                        'Status', 'Project URL', 'Effective Date', 'Commitment Amount',
-                        'Pre/Post Paris Agreement']]
-
-wb_df = wb_df.loc[:, ['Country', 'Region', 'Project Name', 'Project Description', 
-                      'Status', 'Project URL', 'Effective Date', 'Commitment Amount',
-                      'Pre/Post Paris Agreement']]
-compare_col = ['Country','2020 GDP Per Capita', '2020 Gain Index']
 
 df_lst = [adb_df, wb_df]
 ll_df = pd.concat(df_lst)
 ll_df = ll_df.sort_values(by = ['Country'])
 
 ll_df["Effective Date"] = pd.to_datetime(ll_df['Effective Date'])
-ll_df["Pre/Post Paris Agreement"] = ll_df["Pre/Post Paris Agreement"].map({0: "Pre", 
-                                                                     1: "Post"})
+ll_df["Pre/Post Paris Agreement"] = ll_df["Pre/Post Paris Agreement"].map({0: "Pre", 1: "Post"})
 
 #Construct High Level DataFrame
-hl_f = open("project_tracker/data/hl_data.csv")
-hl_df = pd.read_csv(hl_f)
+
+hl_df = pd.read_csv("project_tracker/data/hl_data.csv")
+hl_df['Project Funding (in Millions)'] = hl_df["Cumulative Project Funding (Total)"].div(1000000).round(2)
+hl_df['Climate Change Project Funding (in Millions)'] = hl_df["Climate Change Project Funding (Total)"].div(1000000).round(2)

@@ -36,7 +36,7 @@ def clean_wb_data():
     Returns:
     pandas.DataFrame
     """
-    data_path = os.path.join('data', 'uncleaned consolidated post and pre data - wb_updated.xlsx')
+    data_path = os.path.join('data/raw', 'raw/uncleaned consolidated post and pre data - wb_updated.xlsx')
     df = load_data(data_path)
 
     #Preprocessing data to remove unnecessary fields
@@ -46,7 +46,7 @@ def clean_wb_data():
     df = df[df['Year'] != 2010]
 
     # Save the modified data to a CSV file
-    df.to_csv(os.path.join('data', 'wb_data.csv'), index=False)
+    df.to_csv(os.path.join('data/raw', 'wb_data.csv'), index=False)
 
     # Return the modified data as a DataFrame
     return df
@@ -60,7 +60,7 @@ def clean_ndgain_data():
     Returns:
         None. The function writes the cleaned DataFrame to the output CSV file.
     """
-    data_path = os.path.join('data', 'gain.csv')
+    data_path = os.path.join('data/raw', 'gain.csv')
     df = load_data(data_path)
     # List of countries to keep
     countries_to_keep = ["Afghanistan", "Armenia", "Bangladesh", "Bhutan", "Cambodia", "Georgia", 
@@ -149,15 +149,11 @@ def avg_commitment_plot():
     Returns:
     None. Creates a bar plot
     """
-    df = clean_wb_data()
+    df = pd.read_csv("project_tracker/data/ll_wb.csv")
     avg_commitment_amount_by_year = calc_avg_commitment_amount_by_year(df)
-    # Print the resulting DataFrame
-    print(avg_commitment_amount_by_year.to_string(index=False, formatters={'Average Commitment Amount': '{:,.2f}'.format}))
     # Create a bar plot of the average commitment amount by year using plotly
     fig = px.bar(avg_commitment_amount_by_year, x='Year', y='Average Commitment Amount',
-                labels={'Year': 'Year', 'Average Commitment Amount': 'Average Commitment Amount (Millions of Dollars)'})
+                labels={'Year': 'Year', 'Average Commitment Amount': 'Average Commitment Amount (Millions of Dollars)'},
+                title='Commitment Amount Distribution (Over Time)')
 
-    # Show the plot
-    fig.show()
-
-avg_commitment_plot()
+    return fig

@@ -4,7 +4,7 @@ from collections import Counter
 import spacy
 
 def clean_data():
-    with open('adb_projects.json') as f:
+    with open('project_tracker/data/raw/adb_projects.json') as f:
         data = json.load(f)
 
     #remove null rows
@@ -78,13 +78,13 @@ def clean_data():
 
     print(df)
     #convert to csv    
-    df.to_csv("clean_df.csv", index=False)
+    df.to_csv("project_tracker/data/clean_df.csv", index=False)
 
 
 def merg_climate_df():
-    df_2019 = pd.read_csv('adb_19-21_climate_data/ADB Climate-2019.csv')
-    df_2020 = pd.read_csv('adb_19-21_climate_data/ADB Climate-2020.csv')
-    df_2021 = pd.read_csv('adb_19-21_climate_data/ADB Climate-2021.csv')
+    df_2019 = pd.read_csv('project_tracker/data/raw/adb_19-21_climate_data/ADB Climate-2019.csv')
+    df_2020 = pd.read_csv('project_tracker/data/raw/adb_19-21_climate_data/ADB Climate-2020.csv')
+    df_2021 = pd.read_csv('project_tracker/data/raw/adb_19-21_climate_data/ADB Climate-2021.csv')
 
     df_2020.dropna(how='all', axis=1, inplace=True)
     new_df_2020 = df_2020.drop(['Other Sector(s) Covered'], axis = 1)
@@ -132,7 +132,7 @@ def add_climate_tag(df):
     """
 
     sp = spacy.load("en_core_web_sm")
-    tag = pd.read_csv('adb_19-21_climate_data/climate_tag_words.csv')
+    tag = pd.read_csv('project_tracker/data/raw/adb_19-21_climate_data/climate_tag_words.csv')
     
     for index, row in df.iterrows():
 
