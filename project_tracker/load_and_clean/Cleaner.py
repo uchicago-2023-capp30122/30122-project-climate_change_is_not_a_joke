@@ -1,3 +1,7 @@
+#Functions by by Kayecee Palisoc: clean_data
+#Functions by Robert McCormick:  merg_climate_df, climate_tag_token_lst,
+#add_climate_tag, make_token_column, final_adb_csv
+
 import pandas as pd
 import json
 from collections import Counter
@@ -79,9 +83,9 @@ def clean_data():
     #rearranging columns
     df = df[['Country', 'Region', 'Project Name', 'Project Description', 'Status', 'Project URL', 'Effective Date', 'Commitment Amount', 'Pre/Post Paris Agreement','Year', 'Sector']]
 
-    print(df)
     #convert to csv    
     df.to_csv("project_tracker/data/clean_df.csv", index=False)
+    return df
 
 
 def merg_climate_df():
@@ -106,9 +110,12 @@ def merg_climate_df():
 
 
 
-def climate_tag_token_lst(df,max_num):
+def climate_tag_token_lst(df,top_tokens):
     """
     creates a list of tokens from the known ADB Climate projects 
+    Input:
+        df(pandas data frame)
+        top_tokens(int): desired number of most frequently occuring tokens
     Returns: CSV
     """
     df = merg_climate_df()
@@ -123,7 +130,7 @@ def climate_tag_token_lst(df,max_num):
             token_lst.append(token.text)
 
     word_freq = Counter(token_lst)
-    top_tokens = word_freq.most_common(max_num)
+    top_tokens = word_freq.most_common(top_tokens)
     df = pd.DataFrame(top_tokens) 
     with open('tokens', 'w') as f:
         df.to_csv('tokens.csv')
@@ -182,8 +189,21 @@ def make_token_column(df, name):
     
 
 def final_adb_csv():
+    """
+    This function takes in the clean data, categorizes the projects as climate 
+    related, and then addes a column of tokens based off the project description
 
-    
+    Input:
+        name(str): name and path of csv
+    Returns(csv) 
+    """
+    df = clean_data()
+    df = add_climate_tag(df)
+    return make_token_column(df, 'project_tracker/data/final_adb')
+
+
+if __name__ == '__main__':
+    final_adb_csv()
 
 
 

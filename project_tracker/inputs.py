@@ -46,9 +46,6 @@ hl_data_table_text = {"width": "100px",
                       "textOverflow": "ellipsis", 
                       "font-family": "Helvetica"}
 
-hl_data_table_cell = {"textAlign": "center", 
-                      "font-family": "Helvetica"}
-
 ll_data_table_cell = {"text-align": "left", 
                       "width": 4,
                       "textOverflow": "ellipsis",
