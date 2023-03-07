@@ -8,6 +8,7 @@ import pandas as pd
 
 adb_df = pd.read_csv("project_tracker/data/final_adb.csv")
 wb_df = pd.read_csv("project_tracker/data/ll_wb.csv")
+adb_df = adb_df[adb_df["Climate-Related"] == "Yes"]
 
 df_lst = [adb_df, wb_df]
 ll_df = pd.concat(df_lst)

@@ -197,3 +197,6 @@ def crawl():
 
     with open("project_tracker/data/raw/adb_projects.json", "w") as f:
         print(json.dump(projects, f, indent=1))
+
+if __name__ == '__main__':
+    crawl()

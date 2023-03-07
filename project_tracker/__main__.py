@@ -211,6 +211,7 @@ app.layout = dbc.Container([
                                  style_data = hl_data_table_text,
                                  style_cell = ll_data_table_cell,
                                  sort_action = "native",
+                                 filter_action = "native",
                                  sort_mode = "multi")),
     html.Br(),
     html.Br(),

@@ -64,7 +64,8 @@ bottom_table_cols = [{"name": "Project Name", "id": "Project Name"},
                      {"name": "Status", "id": "Status"},
                      {"name": "Commitment Amount", "id": "Commitment Amount"},
                      {"name": "Effective Date", "id": "Effective Date"},
-                     {"name": "Project URL", "id": "Project URL"}]
+                     {"name": "Project URL", "id": "Project URL"},
+                     {"name": "Search Terms", "id": "Tokens"}]
 
 # Filter Options
 
@@ -76,11 +77,9 @@ paris_filter = [{"label": "Pre-Paris Agreement",
 source_filter = [{"label": "Source: Asian Development Bank", "value": "ADB"}, 
                  {"label": "Source: World Bank", "value": "World Bank"}]
 
-map_dd_options = ["Project Count", "Climate Change Project Count", 
-                  "Climate Change Project Count Proportion",
+map_dd_options = ["Project Count", "Climate Change Project Count",
                   "Cumulative Project Funding", 
-                  "Climate Change Project Funding", 
-                  "Climate Change Project Funding Proportion"]
+                  "Climate Change Project Funding"]
 
 bar_options = ["Status", "Pre/Post Paris Agreement"]
 
