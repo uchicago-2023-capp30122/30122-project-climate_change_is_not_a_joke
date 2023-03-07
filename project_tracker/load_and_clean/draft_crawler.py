@@ -3,10 +3,10 @@
 #selecting_tables_financing, combine_all_dict
 
 #Functions by Robert McCormick: collecting_project_urls, get_next_page,
-#find_end_date, crawl
+#find_end_date, crawl, run_crawl
 
 #Function by author of PA2: make_link_absolute
-
+import sys
 import json
 import time
 import requests
@@ -135,6 +135,15 @@ def make_link_absolute(rel_url, current_url):
 
 
 def collecting_project_urls(current_url):
+    """
+    This function collects all the project urls on a current page of ADB website
+    and stores urls in a list
+
+    Input:
+        current_url(str): The url of the current page
+    Returns:
+        list of all project urls to scrape on page
+    """
     urls = []
     response = requests.get(current_url)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -149,6 +158,15 @@ def collecting_project_urls(current_url):
 
 
 def get_next_page(current_url):
+    """
+    This function allows crawler to acesses the next page of ADB website when
+    there are not urls left on the page.
+
+    Input:
+        current_url(str): The url of the current page
+    Returns:
+        link to the next page
+    """
     response = requests.get(current_url)
     soup = BeautifulSoup(response.content, "html.parser")
 
@@ -170,20 +188,26 @@ def find_end_date(project, month_year):
     any month (month abreviated) and year example( "Nov 2011").
 
     Input:
-        Project(str)
+        Project(str): The url of project
+        month_year(str):stop condition month (month abreviated) and year 
+                        example( "Nov 2011")
+        Returns(Bool): If stopping condition is true returns True
     """
 
     if project is not None and  month_year in project['commitment_date']:
         return True
 
 
-def crawl():
+def crawl(month_year):
     """
     This function applys the previous scraping functions to scrape the ADB
     projects url. It places output into a jason file.
 
     Input:
-        
+        month_year(str):stop condition month (month abreviated) and year 
+                        example("Nov 2011")
+    Returns:
+        json
     """
     list_page_url = "http://www.adb.org/projects?"
     projects = []
@@ -201,7 +225,7 @@ def crawl():
             projects.append(project_d)
             time.sleep(0.5)
 
-            if find_end_date(project_d):
+            if find_end_date(project, month_year):
                 found = True 
                 break
 
@@ -213,6 +237,19 @@ def crawl():
 
     with open("project_tracker/data/raw/adb_projects.json", "w") as f:
         print(json.dump(projects, f, indent=1))
+        
+def run_crawl():
 
+    """
+    Allows crawl to be called on the command line
+    """
+    if len(sys.argv) != 2:
+        print(
+            f"Usage: python3 {sys.argv[0]} <month(abriviation) and year > "
+        )
+        sys.exit(1)
+    month_year = str(sys.argv[1])
+    crawl(month_year)
+    
 if __name__ == '__main__':
-    crawl()
+    run_crawl()
