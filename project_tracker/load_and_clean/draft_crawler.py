@@ -237,7 +237,7 @@ def crawl(month_year):
 
     with open("project_tracker/data/raw/adb_projects.json", "w") as f:
         print(json.dump(projects, f, indent=1))
-        
+
 def run_crawl():
 
     """
@@ -245,7 +245,7 @@ def run_crawl():
     """
     if len(sys.argv) != 2:
         print(
-            f"Usage: python3 {sys.argv[0]} <month(abriviation) and year > "
+            f"Usage: python3 {sys.argv[0]} <month(abriviation) and year ex(Nov 2011)> "
         )
         sys.exit(1)
     month_year = str(sys.argv[1])
