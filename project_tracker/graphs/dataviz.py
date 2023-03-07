@@ -3,10 +3,15 @@ from rdd import rdd
 import numpy as np
 import matplotlib.pyplot as plt
 
+#Author: Nadir Shahzad Khan
+#This is just an exploratory work. It was not included in the file dashboard
+
 def rdd_example():
     """
     """
-    data = pd.read_csv('project_tracker/data/raw/wb_data.csv')
+    # data = pd.read_csv('project_tracker/data/raw/wb_data.csv')
+    data = pd.read_csv('../data/raw/wb_data.csv')
+
     cutoff_year = 2017
     data['treatment'] = np.where(data['Year'] >= cutoff_year, 1, 0)
     bandwidth_opt = rdd.optimal_bandwidth(data['Commitment_Amount'], data['Year'], cut=cutoff_year)

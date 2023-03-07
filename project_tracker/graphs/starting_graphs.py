@@ -3,6 +3,7 @@ from project_tracker.load_and_clean.wb_preprocess import avg_commitment_plot
 from project_tracker.load_and_clean.load_data import hl_df, ll_df
 import plotly.express as px
 
+#Author: Nadir Shahzad Khan
 # Build Figures
 
 logreg_fig = rda_logreg()

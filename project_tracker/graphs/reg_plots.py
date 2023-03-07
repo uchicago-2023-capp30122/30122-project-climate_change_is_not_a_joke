@@ -5,6 +5,7 @@ import plotly.express as px
 import statsmodels.api as sm
 from scipy import stats
 
+#Author: Nadir Shahzad Khan
 
 def rda_logreg():
     """

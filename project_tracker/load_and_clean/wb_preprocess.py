@@ -2,6 +2,8 @@ import os
 import pandas as pd
 import plotly.express as px
 
+#Author: Nadir Shahzad Khan
+#File to clean the datasets for the WorldBank, GDP and ND-Gain index and create one plot
 
 def load_data(input_file):
     """
@@ -36,8 +38,7 @@ def clean_wb_data():
     Returns:
     pandas.DataFrame
     """
-    data_path = os.path.join('data/raw', 'raw/uncleaned consolidated post and pre data - wb_updated.xlsx')
-    df = load_data(data_path)
+    df = load_data('../data/raw/uncleaned consolidated post and pre data - wb_updated.xlsx')
 
     #Preprocessing data to remove unnecessary fields
     df = df.drop(['Borrower', 'Environmental Assessment Category', 'Sector '], axis=1)
@@ -46,7 +47,7 @@ def clean_wb_data():
     df = df[df['Year'] != 2010]
 
     # Save the modified data to a CSV file
-    df.to_csv(os.path.join('data/raw', 'wb_data.csv'), index=False)
+    df.to_csv('../data/raw/wb_data.csv', index=False)
 
     # Return the modified data as a DataFrame
     return df
@@ -60,8 +61,7 @@ def clean_ndgain_data():
     Returns:
         None. The function writes the cleaned DataFrame to the output CSV file.
     """
-    data_path = os.path.join('data/raw', 'gain.csv')
-    df = load_data(data_path)
+    df = load_data('../data/raw/gain.csv')
     # List of countries to keep
     countries_to_keep = ["Afghanistan", "Armenia", "Bangladesh", "Bhutan", "Cambodia", "Georgia", 
                          "India", "Indonesia", "Kiribati", "Kyrgyzstan", "Lao People's Democratic Republic", 
@@ -74,7 +74,7 @@ def clean_ndgain_data():
     df = df[["Name", "2020"]]
     # Rename the columns
     df = df.rename(columns={"Name": "Country Name", "2020": "2020 Gain Index"})
-    df.to_csv(os.path.join('data', 'gain_cleaned.csv'), index=False)
+    df.to_csv('../data/raw/gain_cleaned.csv', index=False)
     # Print a message indicating that the function has completed
     print("Data cleaning complete") 
  
@@ -93,8 +93,7 @@ def clean_gdpcapita_data():
         None
         The function writes the cleaned DataFrame to the output CSV file.
     """
-    data_path = os.path.join('data', 'gdp_percapita.csv')
-    df = load_data(data_path)
+    df = load_data('../data/raw/gdp_percapita.csv')
     df = df.loc[:, ['Country Name', '2020']]
     df = df.dropna()
     countries_to_keep = ["Afghanistan", "Armenia", "Bangladesh", "Bhutan", "Cambodia", "Georgia", 
@@ -104,7 +103,7 @@ def clean_gdpcapita_data():
                          "Tuvalu", "Uzbekistan", "Vietnam"]
     df = df[df['Country Name'].isin(countries_to_keep)]
     df = df.rename(columns={"2020": "2020 GDP Per Capita"})
-    df.to_csv(os.path.join('data', 'gdp_cleaned.csv'), index=False)
+    df.to_csv('../data/raw/gdp_cleaned.csv', index=False)
     print("Data cleaning complete")
 
 
