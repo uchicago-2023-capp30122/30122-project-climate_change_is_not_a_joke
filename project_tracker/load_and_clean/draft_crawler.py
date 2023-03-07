@@ -1,4 +1,12 @@
-import sys
+# Functions by Kayecee Palisoc: selecting_tables, extract_all, 
+# remove_unnecessary_fields, selecting_tables_milestones, selecting_tables_financing
+#selecting_tables_financing, combine_all_dict
+
+#Functions by Robert McCormick: collecting_project_urls, get_next_page,
+#find_end_date, crawl
+
+#Function by author of PA2: make_link_absolute
+
 import json
 import time
 import requests
@@ -101,6 +109,8 @@ def combine_all_dict(url):
     # issue with milestone table not on every project page.
     # solution if not None make dict else return nothing
 
+
+# This function was taken from PA 2 and written by the author of the utils.py
 def make_link_absolute(rel_url, current_url):
     """
     Given a relative URL like "/abc/def" or "?page=2"
@@ -153,21 +163,27 @@ def get_next_page(current_url):
     return make_link_absolute(next_page['href'], current_url)
 
 
-def find_end_date(project):
+def find_end_date(project, month_year):
+    """
+    This function acts as a stoping condition for the crawler. We are looking 
+    to scrape until five years prior to the paris climate agreement but can take
+    any month (month abreviated) and year example( "Nov 2011").
 
-    if project is not None and "Nov 2011" in project['commitment_date']:
-        print(project['commitment_date'])
+    Input:
+        Project(str)
+    """
+
+    if project is not None and  month_year in project['commitment_date']:
         return True
 
 
 def crawl():
     """
-    This function starts at the base URL for the parks site and
-    crawls through each page of parks, scraping each park page
-    and saving output to a file named "parks.json".
+    This function applys the previous scraping functions to scrape the ADB
+    projects url. It places output into a jason file.
 
-    Parameters:
-        * max_parks_to_crawl:  the maximum number of pages to crawl
+    Input:
+        
     """
     list_page_url = "http://www.adb.org/projects?"
     projects = []

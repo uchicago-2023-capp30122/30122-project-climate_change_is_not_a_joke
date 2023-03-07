@@ -28,7 +28,7 @@ The dashboad has six parts:
 
 <p><b>4. Country Level Deep dive</b> -this includes total cumulative funding amount per country, with GDP per capita and GAIN index information. To compare values between two countries, select the country name on the filters</p>
 
-![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/4.GDP_Vulnerability%20Datatable.png)
+![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/4.GDP_Vulnerability_Datatable.png)
 
 
 <p><b>5. Project-level graphs</b> -shows the overall project details of the  selected in Country Level filter. This has breakdown of project status between pre and post Paris agreement, and a plot showing the count and funding amount over time</p>

@@ -4,6 +4,10 @@ from collections import Counter
 import spacy
 
 def clean_data():
+    """
+    This functions cleans the scraped data from the adb projects jason to the 
+    desired format 
+    """
     with open('project_tracker/data/raw/adb_projects.json') as f:
         data = json.load(f)
 
@@ -13,8 +17,7 @@ def clean_data():
     #remove unnecessary fields
     field_list = ['Project Name', 'Project Number', 'Country / Economy', 'Project Status', 'Sector / Subsector', 'Description', 'commitment_date', 'Amount', 'project_url']
     cleaned_list = []
-    #country_proj ={}
-    #proj_id = {}
+ 
     for row in data:
         cleaned_project = {}
         for key in row.keys():
@@ -82,6 +85,13 @@ def clean_data():
 
 
 def merg_climate_df():
+    """
+    mergs known climate data from ADB from csv to pandas data frame
+
+    Returns: Pandas data frame 
+    """
+
+
     df_2019 = pd.read_csv('project_tracker/data/raw/adb_19-21_climate_data/ADB Climate-2019.csv')
     df_2020 = pd.read_csv('project_tracker/data/raw/adb_19-21_climate_data/ADB Climate-2020.csv')
     df_2021 = pd.read_csv('project_tracker/data/raw/adb_19-21_climate_data/ADB Climate-2021.csv')
@@ -150,7 +160,8 @@ def add_climate_tag(df):
 
 def make_token_column(df, name):
     """
-    Making tokens from description and making new column to dataframe
+    Making tokens from description and making new column to dataframe. Can be
+    used for ADB or World bank
 
     Input:
         df(pandas data frame): data frame
@@ -168,6 +179,10 @@ def make_token_column(df, name):
             df.at[index,'Tokens'] = str(words)
             print(words)
     df.to_csv(name, index=False)
+    
+
+def final_adb_csv():
+
     
 
 
