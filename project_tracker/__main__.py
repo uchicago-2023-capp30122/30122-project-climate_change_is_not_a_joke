@@ -1,6 +1,8 @@
 '''
 Dashboard Constructor
 Climate Change Investment Tracker
+
+Author: Robert Surridge
 '''
 
 from dash import html, dcc, Input, Output, dash_table
