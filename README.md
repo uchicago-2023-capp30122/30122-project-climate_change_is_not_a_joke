@@ -79,8 +79,14 @@ Viewing WebApp:
 (Optional) Scraping Data from the Asian Development Bank Data Library:
 
 To view sample data web-scrape from the ADB Data Library:
-1. Run `python3 -m project_tracker.load_and_clean.draft_crawler`
+1. Run `python3 -m project_tracker.load_and_clean.draft_crawler` to try crawler
+  - Takes three arguments month abrivation, year, and desired name of file example (Dec 2022 new_file)
+  - roughly takes one min per 10 projects. If testing recommend to use arguments above. 
 2. Sample dataset created is stored in <b>project_tracker/data/raw/adb_projects.json</b>
+  
+To try cleaning fucntions json to csv: 
+1. `python3 -m project_tracker.load_and_clean.Clean`
+  - Takes two arguments name of json (do not include ".json") and desired name of file example (name_raw name_clean)
 
 </p>
 
