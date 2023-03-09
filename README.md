@@ -87,6 +87,9 @@ To view sample data web-scrape from the ADB Data Library:
 To try cleaning fucntions json to csv: 
 1. `python3 -m project_tracker.load_and_clean.Clean`
   - Takes two arguments name of json (do not include ".json") and desired name of file example (name_raw name_clean)
+  -If you would like to run this please run:
+    - `python -m spacy download en_core_web_lg`
+    - `python -m spacy download en_core_web_sm`
 
 </p>
 
