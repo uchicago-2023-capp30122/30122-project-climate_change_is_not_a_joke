@@ -16,12 +16,12 @@ The dashboad has six parts:
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/1.Map.png)
 
 
-<p><b>2. Regression Plots</b> -examine the effects of the Paris Agrement on Climate related project investments. Detailed Statisical analysis results can be found in the <a href = "https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/Documentation/Statistical%20Model%20and%20Comparative%20Data%20Analysis.pdf">Statistical Model and Comparative Data Analysis file</a></p>
+<p><b>2. Regression Plots</b> -examine the effects of the Paris Agrement on Climate related project investments. Detailed Statistical analysis results can be found in the <a href = "https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/Documentation/Statistical%20Model%20and%20Comparative%20Data%20Analysis.pdf">Statistical Model and Comparative Data Analysis file</a></p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/2.Regression.png)
 
 
-<p><b>3. Histogram</b> -shows the distibution of commitment amount and project count</p>
+<p><b>3. Histogram</b> -shows the distribution of commitment amount and project count</p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/3.Histogram.png)
 
@@ -36,7 +36,7 @@ The dashboad has six parts:
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/5.project_plots.png)
 
 
-<p><b>6. Data Table</b> -shows the individual project details of the selected country, user can also be directed to the project page through the project url on the last column</p>
+<p><b>6. Data Table</b> -shows the individual project details of the selected country, user can also be directed to the project page through the project url and key words for search</p>
 
 ![Alt Text](https://github.com/uchicago-capp122-spring23/30122-project-climate_change_is_not_a_joke/blob/main/project_tracker/dashboard_screenshots/6.project_datatable.png)
 
