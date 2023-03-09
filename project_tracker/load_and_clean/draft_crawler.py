@@ -86,11 +86,13 @@ def selecting_tables_financing(url):
     table = soup.find('table', attrs={"class": 'financing'})
     rows = []
     amount_total = {}
-    for i, row in enumerate(table.find_all('tr')):
-            rows.append([el.text.strip() for el in row.find_all('td')])
-    ADB_index = rows[1].index('ADB')
-    amount_total['Amount'] = rows[3][ADB_index]
-    return amount_total
+    if table is not  None:
+        
+        for i, row in enumerate(table.find_all('tr')):
+                rows.append([el.text.strip() for el in row.find_all('td')])
+        ADB_index = rows[1].index('ADB')
+        amount_total['Amount'] = rows[3][ADB_index]
+        return amount_total
 
 
 
@@ -170,7 +172,7 @@ def get_next_page(current_url):
     response = requests.get(current_url)
     soup = BeautifulSoup(response.content, "html.parser")
 
-    parent = soup.find('li', attrs={"class": 'pager-next'})
+    parent = soup.find('li', attrs={"class": 'pager__item'})
 
     if parent is None:
         return "Nothing Left To Scrape"
@@ -195,10 +197,11 @@ def find_end_date(project, month_year):
     """
 
     if project is not None and  month_year in project['commitment_date']:
+        
         return True
 
 
-def crawl(month_year):
+def crawl(month_year, name):
     """
     This function applys the previous scraping functions to scrape the ADB
     projects url. It places output into a jason file.
@@ -225,7 +228,7 @@ def crawl(month_year):
             projects.append(project_d)
             time.sleep(0.5)
 
-            if find_end_date(project, month_year):
+            if find_end_date(project_d, month_year):
                 found = True 
                 break
 
@@ -235,7 +238,7 @@ def crawl(month_year):
             found = True
             break
 
-    with open("project_tracker/data/raw/adb_projects.json", "w") as f:
+    with open("project_tracker/data/raw/" + name + ".json", "w") as f:
         print(json.dump(projects, f, indent=1))
 
 def run_crawl():
@@ -243,13 +246,15 @@ def run_crawl():
     """
     Allows crawl to be called on the command line
     """
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 4:
         print(
-            f"Usage: python3 {sys.argv[0]} <month(abriviation) and year ex(Nov 2011)> "
+            f"Usage: python3 {sys.argv[0]} <month(abriviation) and year ex(Nov 2011)> <Desired Name of File>"
         )
         sys.exit(1)
-    month_year = str(sys.argv[1])
-    crawl(month_year)
+    month_year = str(sys.argv[1]) + ' ' + str(sys.argv[2])
+    print(month_year)
+    name = str(sys.argv[3])
+    crawl(month_year, name)
     
 if __name__ == '__main__':
     run_crawl()

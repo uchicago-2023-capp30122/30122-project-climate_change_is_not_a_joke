@@ -2,17 +2,18 @@
 #Functions by Robert McCormick:  merg_climate_df, climate_tag_token_lst,
 #add_climate_tag, make_token_column, final_adb_csv
 
+import sys
 import pandas as pd
 import json
 from collections import Counter
 import spacy
 
-def clean_data():
+def clean_data(name):
     """
-    This functions cleans the scraped data from the adb projects jason to the 
+    This functions cleans the scraped data from the adb projects json to the 
     desired format 
     """
-    with open('project_tracker/data/raw/adb_projects.json') as f:
+    with open('project_tracker/data/raw/'+ name + '.json') as f:
         data = json.load(f)
 
     #remove null rows
@@ -60,7 +61,7 @@ def clean_data():
     df.loc[df['Country'].str.contains('Micronesia'), 'Country'] = "Federated States of Micronesia"
 
     #Add column for Region
-    country_list = pd.read_csv('Country_List.csv')
+    country_list = pd.read_csv('project_tracker/data/raw/Country_List.csv')
     df = df.merge(country_list[['Country', 'Region']], on='Country', how='left')
     df.loc[df['Country'] == 'Regional', 'Region'] = 'Regional'
 
@@ -84,7 +85,7 @@ def clean_data():
     df = df[['Country', 'Region', 'Project Name', 'Project Description', 'Status', 'Project URL', 'Effective Date', 'Commitment Amount', 'Pre/Post Paris Agreement','Year', 'Sector']]
 
     #convert to csv    
-    df.to_csv("project_tracker/data/clean_df.csv", index=False)
+    # df.to_csv("project_tracker/data/clean_df.csv", index=False)
     return df
 
 
@@ -184,11 +185,11 @@ def make_token_column(df, name):
             words =[word.lemma_.lower() for word in doc if not word.is_stop and not word.is_punct and not word.like_num]
             
             df.at[index,'Tokens'] = str(words)
-            print(words)
-    df.to_csv(name, index=False)
+    
+    df.to_csv(name +".csv", index=False)
     
 
-def final_adb_csv():
+def final_adb_csv(scrape_json, name):
     """
     This function takes in the clean data, categorizes the projects as climate 
     related, and then addes a column of tokens based off the project description
@@ -197,13 +198,28 @@ def final_adb_csv():
         name(str): name and path of csv
     Returns(csv) 
     """
-    df = clean_data()
+    df = clean_data(scrape_json)
     df = add_climate_tag(df)
-    return make_token_column(df, 'project_tracker/data/final_adb')
+    return make_token_column(df, 'project_tracker/data/' + name)
+
+def run_cleaner():
+
+    """
+    Allows crawl to be called on the command line
+    """
+    if len(sys.argv) != 3:
+        print(
+            f"Usage: python3 {sys.argv[0]} <Name of json (do not include .json)> <Desired Name of File>"
+        )
+        sys.exit(1)
+    json_name = str(sys.argv[1])
+    name = str(sys.argv[2])
+    return final_adb_csv(json_name, name)
+
 
 
 if __name__ == '__main__':
-    final_adb_csv()
+    run_cleaner()
 
 
 
