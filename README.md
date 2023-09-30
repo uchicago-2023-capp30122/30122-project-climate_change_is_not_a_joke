@@ -1,6 +1,6 @@
-# <b>Climate Change is not a joke</b>
+# <b>A Comparative Analysis of Major MDB Funding in the Asia Pacific Region</b>
 ## <b>CAPP 122 Course Project | Winter 2023</b>
-### <b>Team Members: Nadir Khan, Bob Surridge, Rob Mccormick, Kayecee Palisoc</b>
+### <b>Team Members: Nadir Khan, Bobby Surridge, Robert Mccormick, Kayecee Palisoc</b>
 
 
 <p>
